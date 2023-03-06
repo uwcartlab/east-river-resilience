@@ -8,6 +8,7 @@ require([
     "esri/layers/GroupLayer",
     "esri/widgets/LayerList",
     "esri/widgets/Slider"
+
 ], function (esriConfig, Map, MapView, FeatureLayer, Basemap, BasemapGallery, GroupLayer, LayerList, Slider) {
 
     //Set the API key
@@ -15,7 +16,7 @@ require([
 
     //Set up the basemap
     const map = new Map({
-        basemap: "arcgis-topographic"
+        basemap: "arcgis-topographic",
     });
 
     //Set up the Map View
