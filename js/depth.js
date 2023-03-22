@@ -2,13 +2,8 @@ require([
     "esri/config",
     "esri/Map",
     "esri/views/MapView",
-    "esri/layers/ImageryTileLayer",
-    "esri/rest/identify",
-    "esri/rest/support/IdentifyParameters",
-    "esri/layers/TileLayer",
-    "esri/rest/imageService"
-
-], function (esriConfig, Map, MapView, ImageryTileLayer, identify, IdentifyParameters, TileLayer, imageService) {
+    "esri/layers/ImageryTileLayer"
+  ], function (esriConfig, Map, MapView, ImageryTileLayer) {
 
     let parameters;
 
@@ -43,19 +38,9 @@ require([
     map.add(depth_hundred_year_high);
 
     view.on("click", (event) => {
-        imageService.identify(identifyURL, {
-        geometry: event.mapPoint,
-        mosaicRule: {
-            ascending: true,
-          },
-         processAsMultidimensional: false,
-         returnPixelValues: true,
-         returnCatalogItems: false,
-         returnGeometry: false,
-        returnPixelValues: true
-      })
+      depth_hundred_year_high.identify(event.mapPoint)
       .then((results) => {
-        console.log("values: ", results)
+        console.log("values: ", results.value)
       })
         .catch((err) => console.log(err));
       });
