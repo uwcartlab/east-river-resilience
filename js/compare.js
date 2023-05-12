@@ -192,7 +192,7 @@ require([
     title: "Depth 100-year flood",
     popupEnabled: true,
     popupTemplate: imagePopupTemplate,
-    opacity: 0
+    opacity: .5
     });  
 
     view.on("click", (event) => {
