@@ -1,0 +1,31 @@
+/*Widget Styling*/
+/*basemap gallery*/
+.esri-basemap-gallery{
+    background:#0000b3;
+    padding:10px;
+}
+.esri-basemap-gallery__item-title{
+    color:white; 
+}
+.esri-basemap-gallery__item-title:hover{
+    color:white;
+}
+.esri-basemap-gallery__item:hover{
+    background:rgba(255,255,255,0.5);
+    color:white;
+}
+/*layer list styling*/
+.esri-layer-list{
+    background:#ccccff;
+}
+.esri-layer-list__item{
+    background:#0000b3;
+    color:white;
+}
+.esri-layer-list__item-actions-menu-item{
+    color:white;
+}
+.esri-layer-list__item-actions-menu-item:hover{
+    background:#0000b3;
+    border:none;
+}

@@ -4,17 +4,10 @@ require([
     "esri/views/MapView",
     "esri/layers/GroupLayer",
     "esri/layers/FeatureLayer",
-    "esri/Basemap",
-    "esri/widgets/BasemapGallery",
     "esri/widgets/LayerList",
-    "esri/layers/ImageryTileLayer",
-    "esri/core/Collection",
-    "esri/widgets/LayerList/ListItem",
-    "esri/widgets/Print"
+    "esri/widgets/Slider"
+], (esriConfig, Map, MapView, GroupLayer, FeatureLayer, LayerList, Slider) => {
 
-], function (esriConfig, Map, MapView, GroupLayer, FeatureLayer, Basemap, BasemapGallery, LayerList, ImageryTileLayer, Collection, ListItem, Print) {
-
-    //Set the API key
     esriConfig.apiKey = "AAPK539d9a98e214453db04a93dfaea676adrxOVh3ZE6LGf-_99lThjFmfwvhD2YHTXoC2px7zOQ0x8qZ9nwvwoeuZn0PgmFA_f"
 
     //global variables
@@ -32,8 +25,6 @@ require([
         }
     }
 
-    //Set up the map layers
-    //High Lake Level
     let one_year_high = new FeatureLayer({
         url: "https://services.arcgis.com/HRPe58bUyBqyyiCt/arcgis/rest/services/1_year_high_lake_level/FeatureServer/13",
         title: "1-year flood",
@@ -46,19 +37,6 @@ require([
         visible: false,
         opacity: 0.6
     });
-    let one_hundred_year_high = new FeatureLayer({
-        url: "https://services.arcgis.com/HRPe58bUyBqyyiCt/arcgis/rest/services/100_year_high_lake_level/FeatureServer/0",
-        title: "100-year flood",
-        visible: false,
-        opacity: 0.6
-    });
-    let five_hundred_year_high = new FeatureLayer({
-        url: "https://services.arcgis.com/HRPe58bUyBqyyiCt/arcgis/rest/services/500_year_high_lake_level/FeatureServer/0",
-        title: "500-year flood",
-        visible: false,
-        opacity: 0.6
-    });
-    //lake lines
     let one_year_high_trailing = new FeatureLayer({
         url: "https://services.arcgis.com/HRPe58bUyBqyyiCt/arcgis/rest/services/1_year_high_lake_level/FeatureServer/13",
         title: "1-year flood line",
@@ -73,31 +51,15 @@ require([
         listMode: "hide",
         visible: true
     });
-    let one_hundred_year_high_trailing = new FeatureLayer({
-        url: "https://services.arcgis.com/HRPe58bUyBqyyiCt/arcgis/rest/services/100_year_high_lake_level/FeatureServer/0",
-        title: "100-year flood line ",
-        renderer: layerRenderer,
-        listMode: "hide",
-        visible: true
-    });
-    let five_hundred_year_high_trailing = new FeatureLayer({
-        url: "https://services.arcgis.com/HRPe58bUyBqyyiCt/arcgis/rest/services/500_year_high_lake_level/FeatureServer/0",
-        title: "500-year flood line",
-        renderer: layerRenderer,
-        listMode: "hide",
-        visible: true
-    });
-    let lineLayers = [one_year_high_trailing, ten_year_high_trailing, one_hundred_year_high_trailing, five_hundred_year_high_trailing];
 
     const floodGroup = new GroupLayer({
         title: "Flood Layers",
         visible: true,
         visibilityMode: "exclusive",
-        layers: [one_year_high, ten_year_high, one_hundred_year_high, five_hundred_year_high],
+        layers: [one_year_high, ten_year_high],
         opacity: 0.75
     });
 
-    //Set up the basemap
     const map = new Map({
         basemap: "arcgis-topographic",
         layers: [floodGroup]
@@ -115,65 +77,6 @@ require([
             spatialReference: 4326
         }
     });
-
-    //Basemap layers for gallery widget
-    let arcgisTopo = Basemap.fromId("arcgis-topographic")
-    let arcgisImagery = Basemap.fromId("arcgis-imagery-standard")
-    let arcgisHybrid = Basemap.fromId("arcgis-imagery")
-
-    //Set up the basemap gallery widget
-    const basemapGallery = new BasemapGallery({
-        view: view,
-        source: [arcgisTopo, arcgisImagery, arcgisHybrid]
-    });
-
-    // Add the widget to the top-right corner of the view
-    view.ui.add(basemapGallery, {
-        position: "top-right"
-    });
-
-    /*const print = new Print({
-        view: view,
-        // specify your own print service
-        printServiceUrl:
-            "https://utility.arcgisonline.com/arcgis/rest/services/Utilities/PrintingTools/GPServer/Export%20Web%20Map%20Task"
-    });
-
-    view.ui.add(print, {
-        position: "top-right"
-    });*/
-
-    //DEPTH QUERY
-    const imagePopupTemplate = {
-        // autocasts as new PopupTemplate()
-        title: "Flood Depth",
-        fieldInfos: [{
-            fieldName: 'Raster.ServicePixelValue',
-            format: {
-                places: 1
-            }
-        }],
-        content: `
-          {Raster.ServicePixelValue} feet
-          `
-    };
-
-    let depth_hundred_year_high = new ImageryTileLayer({
-        url: "https://tiledimageservices.arcgis.com/HRPe58bUyBqyyiCt/arcgis/rest/services/depth_100_year_high/ImageServer",
-        title: "Depth 100-year flood",
-        popupEnabled: true,
-        popupTemplate: imagePopupTemplate,
-        listMode: "hide",
-        opacity: .5
-    });
-
-    view.on("click", (event) => {
-        if (one_hundred_year_high.visible === true) {
-            map.add(depth_hundred_year_high)
-        } else {
-            map.remove(depth_hundred_year_high)
-        }
-    })
 
     async function defineActions(event) {
         // The event object contains an item property.
@@ -210,8 +113,8 @@ require([
                 ]
             ];
         }
-    }
 
+    }
     view.when(() => {
         // Create the LayerList widget with the associated actions
         // and add it to the top-right corner of the view.
@@ -240,24 +143,20 @@ require([
 
                 checkedLine.className = "esri-icon-radio-checked"
                 //test adding line layer
-                lineLayers.forEach(function(item){
-                    if (item.visible)
-                        map.remove(item)
-                })
+                if (one_year_high_trailing.visible)
+                    map.remove(one_year_high_trailing)
+                if (ten_year_high_trailing.visible)
+                    map.remove(ten_year_high_trailing)
 
                 if (event.item.title == "1-year flood")
                     map.add(one_year_high_trailing)
                 if (event.item.title == "10-year flood")
                     map.add(ten_year_high_trailing)
-                if (event.item.title == "100-year flood")
-                    map.add(one_hundred_year_high_trailing)
-                if (event.item.title == "500-year flood")
-                    map.add(five_hundred_year_high_trailing)
 
             }
         });
         // Add widget to the top right corner of the view
-        view.ui.add(layerList, "bottom-right");
+        view.ui.add(layerList, "top-right");
     }).then(function () {
         //function to wait until the layer widget has finished loading in order to add html 
         waitForElementToDisplay(".outline", 1000, 9000);
@@ -283,4 +182,4 @@ require([
         }
 
     })
-});
+})

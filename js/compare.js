@@ -135,15 +135,15 @@ require([
         selectionEnabled: true,
         multipleSelectionEnabled: false
     });
-    let rList = new LayerList({
+    /*let rList = new LayerList({
         operationalItems: collection2,
         selectionEnabled: true,
         multipleSelectionEnabled: false
-    });  
+    });  */
       
-    view.ui.add(lList, "bottom-left");   
+    view.ui.add(lList, "bottom-left");       
 
-    view.ui.add(rList, "bottom-right");
+    //view.ui.add(rList, "bottom-right");
 
     //Basemap layers for gallery widget
     let arcgisTopo = Basemap.fromId("arcgis-topographic")
