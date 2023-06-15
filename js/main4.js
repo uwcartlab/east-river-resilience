@@ -2,24 +2,24 @@ require([
     "esri/config",
     "esri/Map",
     "esri/views/MapView",
-    "esri/layers/GroupLayer",
     "esri/layers/FeatureLayer",
     "esri/Basemap",
     "esri/widgets/BasemapGallery",
-    "esri/widgets/LayerList",
     "esri/layers/ImageryTileLayer",
-    "esri/core/Collection",
-    "esri/widgets/LayerList/ListItem",
+    "esri/widgets/Swipe",
     "esri/widgets/Print",
     "esri/rest/support/AlgorithmicColorRamp"
 
-], function (esriConfig, Map, MapView, GroupLayer, FeatureLayer, Basemap, BasemapGallery, LayerList, ImageryTileLayer, Print,AlgorithmicColorRamp) {
+], function (esriConfig, Map, MapView, FeatureLayer, Basemap, BasemapGallery, ImageryTileLayer, Swipe, Print, AlgorithmicColorRamp) {
 //////GLOBAL VARIABLES////////
     //Set the API key
     esriConfig.apiKey = "AAPK539d9a98e214453db04a93dfaea676adrxOVh3ZE6LGf-_99lThjFmfwvhD2YHTXoC2px7zOQ0x8qZ9nwvwoeuZn0PgmFA_f"
 
     let checkedLine = null,
-        lakeLevel = "high"
+        compare = false,
+        //currentLevel = "one-year";
+        lakeLevel = "high",
+        swipe;
 
 //////LAYER RENDERERS///////
     //polygon style
@@ -193,7 +193,6 @@ require([
     //set default line layer group based on lake depth
     let lineLayers = lineLayersHigh;
 
-
 /////MAP CREATION/////
     //Set up the basemap
     const map = new Map({
@@ -231,74 +230,165 @@ require([
     });
 
 /////LAKE LEVEL SWITCH////
-    document.querySelector("#lake-level-low").addEventListener("click",function(event){
-        //clearLineLayers();
-        let temp = polyLayersHigh.concat(lineLayersHigh)
-        temp.forEach(function(layer){
+    //select lake level
+    function selectLakeLevel(level, elem, initial){
+        if (compare){
+            swipe.destroy();
+        }
+
+        compare = false;
+        
+        map.layers.forEach(function(layer, i){
             layer.visible = false;
         })
 
-        document.querySelectorAll("input").forEach(function(elem){
-            elem.checked = false;
+        document.querySelectorAll("input").forEach(function(elem, i){
+            if (i == 0)
+                elem.checked = true;
+            else
+                elem.checked = false;
         })
-
-        lakeLevel = "low";
-        event.target.style.background = "rgba(255,255,255,0.6)"
+        
+        initial.visible = true;
+        lakeLevel = level;
         document.querySelector("#lake-level-high").style.background = "none";
+        document.querySelector("#lake-level-low").style.background = "none";
+        document.querySelector("#lake-level-compare").style.background = "none";
+        elem.style.background = "rgba(255,255,255,0.6)"
+    }
+    //add listeners to the selection buttons
+    document.querySelector("#lake-level-low").addEventListener("click",function(event){
+        selectLakeLevel("low", event.target, one_year_low);
     })
-    document.querySelector("#lake-level-high").addEventListener("click",function(){
-        //clearLineLayers();
-        let temp = polyLayersLow.concat(lineLayersLow)
-        temp.forEach(function(layer){
+    document.querySelector("#lake-level-high").addEventListener("click",function(event){
+        selectLakeLevel("high", event.target, one_year_high);
+    })
+//////Comparison Switch/////
+    //create the swipe feature and add it to the view
+    function createSwipe(){
+        //create swipe ui
+        swipe = new Swipe({
+            view: view,
+            leadingLayers: [],
+            trailingLayers: [],
+            position: 50
+        });
+        // add the widget to the view
+        view.ui.add(swipe);
+    }
+    //set listener for the comparison 
+    document.querySelector("#lake-level-compare").addEventListener("click",function(event){
+        compare = true;
+        
+        createSwipe();
+        //remove all map layers
+        map.layers.forEach(function(layer){
             layer.visible = false;
         })
-
-        document.querySelectorAll("input").forEach(function(elem){
+        //clear overlay checkboxes
+        document.querySelectorAll(".flood-overlay").forEach(function(elem){
             elem.checked = false;
         })
 
-        lakeLevel = "high";
+        //add corresponding layers to the swipe button
+        polyLayersHigh.forEach(function(layer,i){
+            if(document.querySelector("#f" + layer.title.replace(/\s/g, "")).checked){
+                //set trailing/leading layers
+                swipe.leadingLayers = [layer];
+                swipe.trailingLayers = [polyLayersLow[i]];
+                //activate layers
+                layer.visible = true;
+                polyLayersLow[i].visible = true;
+            };
+        })
+
         event.target.style.background = "rgba(255,255,255,0.6)"
         document.querySelector("#lake-level-low").style.background = "none";
+        document.querySelector("#lake-level-high").style.background = "none";
+
     })
 
 //////Layer list/////
 polyLayersHigh.forEach(function(layer, i){
-    document.querySelector("#flood-level-container").insertAdjacentHTML("beforeend","<input id='f" + layer.title.replace(/\s/g, "") + "' type='radio' name='flood-layer'></input><label>" + layer.title + "</label><br>")
+    //if it is the first layer in the list, activate that layer and check the associated radio button
+    let checked = "";
+    if (i == 0){
+        checked = "checked";
+        layer.visible = true;
+    }
+    //create radio buttons
+    document.querySelector("#flood-level-container").insertAdjacentHTML("beforeend","<input id='f" + layer.title.replace(/\s/g, "") + "' type='radio' name='flood-layer' " + checked + "></input><label class='flood-label'>" + layer.title + "</label><br>")
     document.querySelector("#f" + layer.title.replace(/\s/g, "")).addEventListener("click",function(){
-        //hide layers based on selection
-        //hide low lake layers 
-        if (lakeLevel == "high"){
-            polyLayersHigh.forEach(function(l){
-                l.visible = false;
-            })
+        //hide all lake level layers
+        polyLayersHigh.forEach(function(l){
+            l.visible = false;
+        })
+        polyLayersLow.forEach(function(l){
+            l.visible = false;
+        })
+        //show high and low lake layers for comparison
+        if (compare == true){
+            //remove existing swipe interface
+            swipe.destroy();
+            //create new swipe interface
+            createSwipe();
+            //add selected lake levels to the interface and make them visible
+            swipe.leadingLayers = [layer];
+            swipe.trailingLayers = [polyLayersLow[i]];
+
             layer.visible = true;
-        }
-        //hide high lake layers
-        else{
-            polyLayersLow.forEach(function(l){
-                l.visible = false;
-            })
             polyLayersLow[i].visible = true;
+        }
+        else{
+            //add layer for high lake level
+            if (lakeLevel == "high"){
+                layer.visible = true;
+            }
+            //add layer for low lake level
+            else{
+                polyLayersLow[i].visible = true;
+            }
         }
     })
 })
 
 //overlays
 lineLayersHigh.forEach(function(layer,i){
-    document.querySelector("#overlay-container").insertAdjacentHTML("beforeend","<input id='f" + layer.title.replace(/\s/g, "") + "' type='radio' name='flood-overlay'></input><label>" + layer.title + "</label><br>")
-    document.querySelector("#f" + layer.title.replace(/\s/g, "")).addEventListener("click",function(){
-        if (lakeLevel == "high"){
-            lineLayersHigh.forEach(function(l){
-                l.visible = false;
-            })
-            layer.visible = true;
+    document.querySelector("#overlay-container").insertAdjacentHTML("beforeend","<input id='f" + layer.title.replace(/\s/g, "") + "' type='checkbox' name='flood-overlay' class='flood-overlay'></input><label class='overlay-label'>" + layer.title + "</label><br>")
+    document.querySelector("#f" + layer.title.replace(/\s/g, "")).addEventListener("click",function(event){
+        if (compare == true){
+            if (event.target.checked){
+                layer.visible = true;
+                lineLayersLow[i].visible = true;
+
+                swipe.leadingLayers.push(layer)
+                swipe.trailingLayers.push(lineLayersLow[i])
+            }
+            else{
+                layer.visible = false;
+                lineLayersLow[i].visible = false;
+
+                let x = array.indexOf(layer);
+                swipe.leadingLayers.splice(x,1)
+                let y = array.indexOf(lineLayersLow[i]);
+                swipe.trailingLayers.splice(y,1)
+            }
         }
         else{
-            lineLayersLow.forEach(function(l){
-                l.visible = false;
-            })
-            lineLayersLow[i].visible = true;
+            //set visibility of selected layer based on 
+            if (lakeLevel == "high"){
+                if (event.target.checked)
+                    layer.visible = true;
+                else
+                    layer.visible = false;
+            }
+            else{
+                if (event.target.checked)
+                    lineLayersLow[i].visible = true;
+                else
+                    lineLayersLow[i].visible = false;
+            }
+    
         }
 
     })
@@ -350,125 +440,4 @@ lineLayersHigh.forEach(function(layer,i){
         }
     })
 
-/////LAYER LIST FUNCTIONS/////
-   /*async function defineActions(event) {
-        // The event object contains an item property.
-        // is is a ListItem referencing the associated layer
-        // and other properties. You can control the visibility of the
-        // item, its title, and actions using this object.
-
-        const item = event.item;
-
-        await item.layer.when();
-
-        if (item.title != "Flood Layers") {
-            // An array of objects defining actions to place in the LayerList.
-            // By making this array two-dimensional, you can separate similar
-            // actions into separate groups with a breaking line.
-            item.actionsSections = [
-                [
-                    {
-                        title: item.title + "_line",
-                        className: "esri-icon-radio-unchecked",
-                        id: "information"
-                    }
-                ]
-            ];
-        }
-        else {
-            item.actionsSections = [
-                [
-                    {
-                        title: "Outline",
-                        className: "outline",
-                        id: "title"
-                    }
-                ]
-            ];
-        }
-    }
-
-    function clearLineLayers(){
-        lineLayers.forEach(function(item){
-            if (item.visible)
-                map.remove(item)
-        })
-    }
-
-    view.when(() => {
-        // Create the LayerList widget with the associated actions
-        // and add it to the top-right corner of the view.
-
-        const layerList = new LayerList({
-            view: view,
-            // executes for each ListItem in the LayerList
-            listItemCreatedFunction: defineActions
-        });
-
-        //document.querySelector(".outline").innerHTML = "Outline";
-        // Event listener that fires each time an action is triggered
-
-        layerList.on("trigger-action", (event) => {
-            // Capture the action id.
-            const id = event.action.id;
-
-            if (id === "information") {
-                if (checkedLine) {
-                    checkedLine.className = "esri-icon-radio-unchecked"
-                }
-                checkedLine = event.action
-
-                checkedLine.className = "esri-icon-radio-checked"
-                //test adding line layer
-                clearLineLayers();
-
-                if (event.item.title == "1-year flood"){
-                    if (lakeLevel == "high")
-                        map.add(one_year_high_trailing)
-                    else
-                        map.add(one_year_low_trailing)
-                }
-                if (event.item.title == "10-year flood"){
-                    map.add(ten_year_high_trailing)
-                }
-                if (event.item.title == "100-year flood"){
-                    if (lakeLevel == "high")
-                        map.add(one_hundred_year_high_trailing)
-                    else
-                        map.add(one_hundred_year_low_trailing)
-                }
-                if (event.item.title == "500-year flood"){
-                    map.add(five_hundred_year_high_trailing)
-                }
-
-            }
-        });
-        // Add widget to the top right corner of the view
-        view.ui.add(layerList, "bottom-right");
-    }).then(function () {
-        //function to wait until the layer widget has finished loading in order to add html 
-        waitForElementToDisplay(".outline", 1000, 9000);
-
-        function waitForElementToDisplay(selector,  checkFrequencyInMs, timeoutInMs) {
-            var startTimeInMs = Date.now();
-            (function loopSearch() {
-                //check for existence of element
-                //if exists, populate HTML and end the function
-                if (document.querySelector(selector) != null) {
-                    document.querySelector(selector).innerHTML = "Outline";
-                    return;
-                }
-                //if the element doesn't exist, continue running the loop
-                else {
-                    setTimeout(function () {
-                        if (timeoutInMs && Date.now() - startTimeInMs > timeoutInMs)
-                            return;
-                        loopSearch();
-                    }, checkFrequencyInMs);
-                }
-            })();
-        }
-
-    })
-*/
 });

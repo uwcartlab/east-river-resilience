@@ -11,10 +11,10 @@ html, body{
 #infoPanel > *{
     width:300px; 
 }
-#infoText{
+/*#infoText{
     height:calc(100% - 150px);
     overflow:scroll;
-}
+}*/
 #viewDiv{
     height:100%;
     width:calc(100% - 330px);
@@ -28,7 +28,7 @@ html, body{
 #lake-level-container{
     margin-bottom:15px;
 }
-#lake-level-container > *{
+#lake-level-container > button{
     display:inline;
     font-size:18px;
     font-weight:bold;
