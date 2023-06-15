@@ -129,28 +129,28 @@ require([
         title: "1-year flood line",
         renderer: lineStyle,
         listMode: "hide",
-        visible: true
+        visible: false
     });
     let ten_year_high_trailing = new FeatureLayer({
         url: "https://services.arcgis.com/HRPe58bUyBqyyiCt/arcgis/rest/services/Map1/FeatureServer/0",
         title: "10-year flood line",
         renderer: lineStyle,
         listMode: "hide",
-        visible: true
+        visible: false
     });
     let one_hundred_year_high_trailing = new FeatureLayer({
         url: "https://services.arcgis.com/HRPe58bUyBqyyiCt/arcgis/rest/services/100_year_high_lake_level/FeatureServer/0",
         title: "100-year flood line ",
         renderer: lineStyle,
         listMode: "hide",
-        visible: true
+        visible: false
     });
     let five_hundred_year_high_trailing = new FeatureLayer({
         url: "https://services.arcgis.com/HRPe58bUyBqyyiCt/arcgis/rest/services/500_year_high_lake_level/FeatureServer/0",
         title: "500-year flood line",
         renderer: lineStyle,
         listMode: "hide",
-        visible: true
+        visible: false
     });
 
     //low lake level lines
@@ -193,20 +193,12 @@ require([
     //set default line layer group based on lake depth
     let lineLayers = lineLayersHigh;
 
-    //create initial layer group for display
-    const floodGroup = new GroupLayer({
-        title: "Flood Layers",
-        visible: true,
-        visibilityMode: "exclusive",
-        layers: polyLayersHigh,
-        opacity: 0.75
-    });
 
 /////MAP CREATION/////
     //Set up the basemap
     const map = new Map({
         basemap: "arcgis-topographic",
-        layers: [floodGroup]
+        layers: polyLayersHigh.concat(lineLayersHigh).concat(lineLayersLow).concat(polyLayersLow)
     });
 
     //Set up the Map View
@@ -240,23 +232,77 @@ require([
 
 /////LAKE LEVEL SWITCH////
     document.querySelector("#lake-level-low").addEventListener("click",function(event){
-        clearLineLayers();
+        //clearLineLayers();
+        let temp = polyLayersHigh.concat(lineLayersHigh)
+        temp.forEach(function(layer){
+            layer.visible = false;
+        })
+
+        document.querySelectorAll("input").forEach(function(elem){
+            elem.checked = false;
+        })
+
         lakeLevel = "low";
-        floodGroup.layers = polyLayersLow;
-        lineLayers = lineLayersLow;
-        one_year_low.visible = true;
         event.target.style.background = "rgba(255,255,255,0.6)"
         document.querySelector("#lake-level-high").style.background = "none";
     })
     document.querySelector("#lake-level-high").addEventListener("click",function(){
-        clearLineLayers();
+        //clearLineLayers();
+        let temp = polyLayersLow.concat(lineLayersLow)
+        temp.forEach(function(layer){
+            layer.visible = false;
+        })
+
+        document.querySelectorAll("input").forEach(function(elem){
+            elem.checked = false;
+        })
+
         lakeLevel = "high";
-        floodGroup.layers = polyLayersHigh;
-        lineLayers = lineLayersHigh;
-        one_year_high.visible = true;
         event.target.style.background = "rgba(255,255,255,0.6)"
         document.querySelector("#lake-level-low").style.background = "none";
     })
+
+//////Layer list/////
+polyLayersHigh.forEach(function(layer, i){
+    document.querySelector("#flood-level-container").insertAdjacentHTML("beforeend","<input id='f" + layer.title.replace(/\s/g, "") + "' type='radio' name='flood-layer'></input><label>" + layer.title + "</label><br>")
+    document.querySelector("#f" + layer.title.replace(/\s/g, "")).addEventListener("click",function(){
+        //hide layers based on selection
+        //hide low lake layers 
+        if (lakeLevel == "high"){
+            polyLayersHigh.forEach(function(l){
+                l.visible = false;
+            })
+            layer.visible = true;
+        }
+        //hide high lake layers
+        else{
+            polyLayersLow.forEach(function(l){
+                l.visible = false;
+            })
+            polyLayersLow[i].visible = true;
+        }
+    })
+})
+
+//overlays
+lineLayersHigh.forEach(function(layer,i){
+    document.querySelector("#overlay-container").insertAdjacentHTML("beforeend","<input id='f" + layer.title.replace(/\s/g, "") + "' type='radio' name='flood-overlay'></input><label>" + layer.title + "</label><br>")
+    document.querySelector("#f" + layer.title.replace(/\s/g, "")).addEventListener("click",function(){
+        if (lakeLevel == "high"){
+            lineLayersHigh.forEach(function(l){
+                l.visible = false;
+            })
+            layer.visible = true;
+        }
+        else{
+            lineLayersLow.forEach(function(l){
+                l.visible = false;
+            })
+            lineLayersLow[i].visible = true;
+        }
+
+    })
+})
 
 /////PRINT FUNCTION/////
     /*const print = new Print({
@@ -305,7 +351,7 @@ require([
     })
 
 /////LAYER LIST FUNCTIONS/////
-    async function defineActions(event) {
+   /*async function defineActions(event) {
         // The event object contains an item property.
         // is is a ListItem referencing the associated layer
         // and other properties. You can control the visibility of the
@@ -424,5 +470,5 @@ require([
         }
 
     })
-
+*/
 });

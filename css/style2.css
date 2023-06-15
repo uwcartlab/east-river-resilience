@@ -1,7 +1,19 @@
+html{
+    background:#993333;
+}
+/*Panel styling*/
+#infoPanel{
+    background:#993333;
+    color:white;
+    padding:15px;
+}
+hr{
+    color:white;
+}
 /*Widget Styling*/
 /*basemap gallery*/
 .esri-basemap-gallery{
-    background:#0000b3;
+    background:#993333;
     padding:10px;
 }
 .esri-basemap-gallery__item-title{
@@ -16,16 +28,27 @@
 }
 /*layer list styling*/
 .esri-layer-list{
-    background:#ccccff;
+    background:#732626;
 }
 .esri-layer-list__item{
-    background:#0000b3;
+    background:#993333;
     color:white;
 }
-.esri-layer-list__item-actions-menu-item{
+.esri-layer-list__item-actions-menu-item, .esri-layer-list__item-toggle{
     color:white;
 }
 .esri-layer-list__item-actions-menu-item:hover{
-    background:#0000b3;
+    background:#993333;
     border:none;
+}
+/*popup styling*/
+.esri-popup--is-collapsible, .esri-popup__header-container, .esri-widget__heading, .esri-popup__content, .esri-feature-content{
+    background:#993333 !important;
+    color:white;
+}
+.esri-popup--is-collapsible > *:hover, .esri-popup__button:hover{
+    background:white;
+}
+.esri-popup__button{
+    color:white;
 }

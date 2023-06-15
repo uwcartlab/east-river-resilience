@@ -27,11 +27,11 @@ require([
         type: "simple",
         symbol: {
             type: "simple-fill",
-            color:[0, 68, 204, 0.6],
+            color:[204, 102, 102, 0.8],
             outline: {
                 style: "solid",
                 width: "1",
-                color: "blue"
+                color: "#862d2d"
             }
         }
     }
@@ -53,8 +53,8 @@ require([
         colorRamp: {
             type:"algorithmic",
             algorithm: 'lab-lch',
-            toColor: "#0000cc",
-            fromColor: "#ccccff"
+            toColor: "#993333",
+            fromColor: "#ebc6c6"
         },
         stretchType: 'min-max',
         statistics: [{
@@ -101,23 +101,9 @@ require([
         renderer: polygonStyle,
         opacity: 0.6
     });
-    let fifty_year_low = new FeatureLayer({
-        url: "https://services.arcgis.com/HRPe58bUyBqyyiCt/arcgis/rest/services/50_year_low/FeatureServer/0",
-        title: "50-year flood",
-        visible: false,
-        renderer: polygonStyle,
-        opacity: 0.6
-    });
     let one_hundred_year_low = new FeatureLayer({
         url: "https://services.arcgis.com/HRPe58bUyBqyyiCt/arcgis/rest/services/100_year_lake_level_low/FeatureServer/0",
         title: "100-year flood",
-        visible: false,
-        renderer: polygonStyle,
-        opacity: 0.6
-    });
-    let five_hundred_year_low = new FeatureLayer({
-        url: "https://services.arcgis.com/HRPe58bUyBqyyiCt/arcgis/rest/services/500_year_low/FeatureServer/0",
-        title: "500-year flood",
         visible: false,
         renderer: polygonStyle,
         opacity: 0.6
@@ -157,38 +143,23 @@ require([
     let one_year_low_trailing = new FeatureLayer({
         url: "https://services.arcgis.com/HRPe58bUyBqyyiCt/arcgis/rest/services/1_year_low_lake_level/FeatureServer/0",
         title: "1-year flood",
-        visible: false,
-        renderer: lineStyle,
-        listMode: "hide"
-    });
-    let fifty_year_low_trailing = new FeatureLayer({
-        url: "https://services.arcgis.com/HRPe58bUyBqyyiCt/arcgis/rest/services/50_year_low/FeatureServer/0",
-        title: "50-year flood",
-        visible: false,
+        visible: true,
         renderer: lineStyle,
         listMode: "hide"
     });
     let one_hundred_year_low_trailing = new FeatureLayer({
         url: "https://services.arcgis.com/HRPe58bUyBqyyiCt/arcgis/rest/services/100_year_lake_level_low/FeatureServer/0",
         title: "100-year flood",
-        visible: false,
+        visible: true,
         renderer: lineStyle,
         listMode: "hide"
-    });
-    let five_hundred_year_low_trailing = new FeatureLayer({
-        url: "https://services.arcgis.com/HRPe58bUyBqyyiCt/arcgis/rest/services/500_year_low/FeatureServer/0",
-        title: "500-year flood",
-        visible: false,
-        renderer: lineStyle,
-        listMode: "hide"
-
     });
 
     //polygon/line layer groups
     let lineLayersHigh = [one_year_high_trailing, ten_year_high_trailing, one_hundred_year_high_trailing, five_hundred_year_high_trailing],
-        lineLayersLow = [one_year_low_trailing, fifty_year_low_trailing, one_hundred_year_low_trailing, five_hundred_year_low_trailing],
+        lineLayersLow = [one_year_low_trailing, one_hundred_year_low_trailing],
         polyLayersHigh = [one_year_high, ten_year_high, one_hundred_year_high, five_hundred_year_high],
-        polyLayersLow = [one_year_low, fifty_year_low, one_hundred_year_low, five_hundred_year_low];
+        polyLayersLow = [one_year_low, one_hundred_year_low];
     
     //set default line layer group based on lake depth
     let lineLayers = lineLayersHigh;
