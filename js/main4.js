@@ -62,9 +62,107 @@ require([
             max: 10 
         }]
     }
+/////POPUP RENDERER//////
+  //depth popup
+  const imagePopupTemplate = {
+    // autocasts as new PopupTemplate()
+    title: "Flood Depth",
+    fieldInfos: [{
+        fieldName: 'Raster.ServicePixelValue',
+        format: {
+            places: 1
+        }
+    }],
+    content: `
+      {Raster.ServicePixelValue} feet
+      `
+};
 /////MAP LAYERS//////////
+    //depth rasters
+    //high lake levels
+    let one_year_high = new ImageryTileLayer({
+        url: "https://tiledimageservices.arcgis.com/HRPe58bUyBqyyiCt/arcgis/rest/services/depth_1_year_high/ImageServer",
+        title: "Depth 1-year flood",
+        popupEnabled: true,
+        popupTemplate: imagePopupTemplate,
+        renderer:rasterRenderer,
+        visible:false,
+        listMode: "hide",
+        opacity: .5
+    });
+    let ten_year_high = new ImageryTileLayer({
+        url: "https://tiledimageservices.arcgis.com/HRPe58bUyBqyyiCt/arcgis/rest/services/depth_10_year_high/ImageServer",
+        title: "Depth 10-year flood",
+        popupEnabled: true,
+        popupTemplate: imagePopupTemplate,
+        renderer:rasterRenderer,
+        visible:false,
+        listMode: "hide",
+        opacity: .5
+    });
+    let one_hundred_year_high = new ImageryTileLayer({
+        url: "https://tiledimageservices.arcgis.com/HRPe58bUyBqyyiCt/arcgis/rest/services/depth_100_year_high/ImageServer",
+        title: "Depth 100-year flood",
+        popupEnabled: true,
+        popupTemplate: imagePopupTemplate,
+        renderer:rasterRenderer,
+        visible:false,
+        listMode: "hide",
+        opacity: .5
+    });
+    let five_hundred_year_high = new ImageryTileLayer({
+        url: "https://tiledimageservices.arcgis.com/HRPe58bUyBqyyiCt/arcgis/rest/services/depth_500_year_high/ImageServer",
+        title: "Depth 500-year flood",
+        popupEnabled: true,
+        popupTemplate: imagePopupTemplate,
+        renderer:rasterRenderer,
+        visible:false,
+        listMode: "hide",
+        opacity: .5
+    });
+    //low lake levels
+    let one_year_low = new ImageryTileLayer({
+        url: "https://tiledimageservices.arcgis.com/HRPe58bUyBqyyiCt/arcgis/rest/services/depth_1_year_low/ImageServer",
+        title: "Depth 1-year flood",
+        popupEnabled: true,
+        popupTemplate: imagePopupTemplate,
+        renderer:rasterRenderer,
+        visible:false,
+        listMode: "hide",
+        opacity: .5
+    });
+    let ten_year_low = new ImageryTileLayer({
+        url: "https://tiledimageservices.arcgis.com/HRPe58bUyBqyyiCt/arcgis/rest/services/depth_10_year_low/ImageServer",
+        title: "Depth 10-year flood",
+        popupEnabled: true,
+        popupTemplate: imagePopupTemplate,
+        renderer:rasterRenderer,
+        visible:false,
+        listMode: "hide",
+        opacity: .5
+    });
+    let one_hundred_year_low = new ImageryTileLayer({
+        url: "https://tiledimageservices.arcgis.com/HRPe58bUyBqyyiCt/arcgis/rest/services/depth_100_year_low/ImageServer",
+        title: "Depth 100-year flood",
+        popupEnabled: true,
+        popupTemplate: imagePopupTemplate,
+        renderer:rasterRenderer,
+        visible:false,
+        listMode: "hide",
+        opacity: .5
+    });
+    let five_hundred_year_low = new ImageryTileLayer({
+        url: "https://tiledimageservices.arcgis.com/HRPe58bUyBqyyiCt/arcgis/rest/services/depth_500_year_low/ImageServer",
+        title: "Depth 500-year flood",
+        popupEnabled: true,
+        popupTemplate: imagePopupTemplate,
+        renderer:rasterRenderer,
+        visible:false,
+        listMode: "hide",
+        opacity: .5
+    });
     //high Lake Level polygons
-    let one_year_high = new FeatureLayer({
+    /*let one_year_high = new FeatureLayer({
         url: "https://services.arcgis.com/HRPe58bUyBqyyiCt/arcgis/rest/services/1_year_high_lake_level/FeatureServer/13",
         title: "1-year flood",
         visible: false,
@@ -79,14 +177,14 @@ require([
         opacity: 0.6
     });
     let one_hundred_year_high = new FeatureLayer({
-        url: "https://services.arcgis.com/HRPe58bUyBqyyiCt/arcgis/rest/services/100_year_high_lake_level/FeatureServer/0",
+        url: "https://tiledimageservices.arcgis.com/HRPe58bUyBqyyiCt/arcgis/rest/services/depth_100_year_low/ImageServer",
         title: "100-year flood",
         visible: false,
         renderer: polygonStyle,
         opacity: 0.6
     });
     let five_hundred_year_high = new FeatureLayer({
-        url: "https://services.arcgis.com/HRPe58bUyBqyyiCt/arcgis/rest/services/500_year_high_lake_level/FeatureServer/0",
+        url: "https://tiledimageservices.arcgis.com/HRPe58bUyBqyyiCt/arcgis/rest/services/depth_500_year_low/ImageServer",
         title: "500-year flood",
         visible: false,
         renderer: polygonStyle,
@@ -101,7 +199,7 @@ require([
         renderer: polygonStyle,
         opacity: 0.6
     });
-    let fifty_year_low = new FeatureLayer({
+    let ten_year_low = new FeatureLayer({
         url: "https://services.arcgis.com/HRPe58bUyBqyyiCt/arcgis/rest/services/50_year_low/FeatureServer/0",
         title: "50-year flood",
         visible: false,
@@ -122,7 +220,7 @@ require([
         renderer: polygonStyle,
         opacity: 0.6
     });
-
+*/
     //high lake level lines
     let one_year_high_trailing = new FeatureLayer({
         url: "https://services.arcgis.com/HRPe58bUyBqyyiCt/arcgis/rest/services/1_year_high_lake_level/FeatureServer/13",
@@ -161,7 +259,7 @@ require([
         renderer: lineStyle,
         listMode: "hide"
     });
-    let fifty_year_low_trailing = new FeatureLayer({
+    let ten_year_low_trailing = new FeatureLayer({
         url: "https://services.arcgis.com/HRPe58bUyBqyyiCt/arcgis/rest/services/50_year_low/FeatureServer/0",
         title: "50-year flood",
         visible: false,
@@ -186,9 +284,9 @@ require([
 
     //polygon/line layer groups
     let lineLayersHigh = [one_year_high_trailing, ten_year_high_trailing, one_hundred_year_high_trailing, five_hundred_year_high_trailing],
-        lineLayersLow = [one_year_low_trailing, fifty_year_low_trailing, one_hundred_year_low_trailing, five_hundred_year_low_trailing],
+        lineLayersLow = [one_year_low_trailing, ten_year_low_trailing, one_hundred_year_low_trailing, five_hundred_year_low_trailing],
         polyLayersHigh = [one_year_high, ten_year_high, one_hundred_year_high, five_hundred_year_high],
-        polyLayersLow = [one_year_low, fifty_year_low, one_hundred_year_low, five_hundred_year_low];
+        polyLayersLow = [one_year_low, ten_year_low, one_hundred_year_low, five_hundred_year_low];
     
     //set default line layer group based on lake depth
     let lineLayers = lineLayersHigh;
@@ -407,37 +505,15 @@ lineLayersHigh.forEach(function(layer,i){
     });*/
 
 //////DEPTH QUERY////////
-    //depth popup
-    const imagePopupTemplate = {
-        // autocasts as new PopupTemplate()
-        title: "Flood Depth",
-        fieldInfos: [{
-            fieldName: 'Raster.ServicePixelValue',
-            format: {
-                places: 1
-            }
-        }],
-        content: `
-          {Raster.ServicePixelValue} feet
-          `
-    };
-    //image raster layer
-    let depth_hundred_year_high = new ImageryTileLayer({
-        url: "https://tiledimageservices.arcgis.com/HRPe58bUyBqyyiCt/arcgis/rest/services/depth_100_year_high/ImageServer",
-        title: "Depth 100-year flood",
-        popupEnabled: true,
-        popupTemplate: imagePopupTemplate,
-        renderer:rasterRenderer,
-        listMode: "hide",
-        opacity: .5
-    });
+  
+    
     //map event
-    view.on("click", (event) => {
+    /*view.on("click", (event) => {
         if (one_hundred_year_high.visible === true) {
             map.add(depth_hundred_year_high)
         } else {
             map.remove(depth_hundred_year_high)
         }
-    })
+    })*/
 
 });
