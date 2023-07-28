@@ -28,11 +28,47 @@ require([
         type: "simple",
         symbol: {
             type: "simple-fill",
-            color:[2, 62, 72, 0.6],
+            color:[15, 58, 62, 0.6],
             outline: {
                 style: "solid",
                 width: "1",
-                color: [2, 62, 72, 1]
+                color: [15, 58, 62, 1]
+            }
+        }
+    }
+    const polygonStyle2 = {
+        type: "simple",
+        symbol: {
+            type: "simple-fill",
+            color:[35, 135, 144, 0.6],
+            outline: {
+                style: "solid",
+                width: "1",
+                color: [35, 135, 144, 1]
+            }
+        }
+    }
+    const polygonStyle3 = {
+        type: "simple",
+        symbol: {
+            type: "simple-fill",
+            color:[70, 199, 210, 0.6],
+            outline: {
+                style: "solid",
+                width: "1",
+                color: [70, 199, 210, 1]
+            }
+        }
+    }
+    const polygonStyle4 = {
+        type: "simple",
+        symbol: {
+            type: "simple-fill",
+            color:[152, 224, 230, 0.6],
+            outline: {
+                style: "solid",
+                width: "1",
+                color: [152, 224, 230, 1]
             }
         }
     }
@@ -44,7 +80,8 @@ require([
             style: "none",
             outline: {
                 style: "solid",
-                width: "1"
+                width: "1",
+                color: [2, 62, 72, 0.5]
             }
         }
     }
@@ -169,27 +206,31 @@ require([
         title: "Extent 1-year flood",
         visible: false,
         renderer: polygonStyle,
+        blendMode:"multiply",
         opacity: 0.6
     });
     let ten_year_high = new FeatureLayer({
         url: "https://services.arcgis.com/HRPe58bUyBqyyiCt/arcgis/rest/services/Map1/FeatureServer/0",
         title: "Extent 10-year flood",
         visible: false,
-        renderer: polygonStyle,
+        renderer: polygonStyle2,
+        blendMode:"multiply",
         opacity: 0.6
     });
     let one_hundred_year_high = new FeatureLayer({
         url: "https://services.arcgis.com/HRPe58bUyBqyyiCt/arcgis/rest/services/100_year_high_lake_level/FeatureServer/0",
         title: "Extent 100-year flood",
         visible: false,
-        renderer: polygonStyle,
+        renderer: polygonStyle3,
+        blendMode:"multiply",
         opacity: 0.6
     });
     let five_hundred_year_high = new FeatureLayer({
         url: "https://services.arcgis.com/HRPe58bUyBqyyiCt/arcgis/rest/services/500_year_high_lake_level/FeatureServer/0",
         title: "Extent 500-year flood",
         visible: false,
-        renderer: polygonStyle,
+        renderer: polygonStyle4,
+        blendMode:"multiply",
         opacity: 0.6
     });
 
@@ -199,27 +240,31 @@ require([
         title: "Extent 1-year flood",
         visible: false,
         renderer: polygonStyle,
+        blendMode:"multiply",
         opacity: 0.6
     });
     let ten_year_low = new FeatureLayer({
         url: "https://services.arcgis.com/HRPe58bUyBqyyiCt/arcgis/rest/services/10_year_low/FeatureServer/0",
         title: "Extent 10-year flood",
         visible: false,
-        renderer: polygonStyle,
+        renderer: polygonStyle2,
+        blendMode:"multiply",
         opacity: 0.6
     });
     let one_hundred_year_low = new FeatureLayer({
         url: "https://services.arcgis.com/HRPe58bUyBqyyiCt/arcgis/rest/services/100_year_lake_level_low/FeatureServer/0",
         title: "Extent 100-year flood",
         visible: false,
-        renderer: polygonStyle,
+        renderer: polygonStyle3,
+        blendMode:"multiply",
         opacity: 0.6
     });
     let five_hundred_year_low = new FeatureLayer({
         url: "https://services.arcgis.com/HRPe58bUyBqyyiCt/arcgis/rest/services/500_year_low/FeatureServer/0",
         title: "Extent 500-year flood",
         visible: false,
-        renderer: polygonStyle,
+        renderer: polygonStyle4,
+        blendMode:"multiply",
         opacity: 0.6
     });
     //LINE LAYERS
@@ -328,7 +373,9 @@ require([
 //add a layer
 function addLayers(highLayers, lowLayers){
     if (compare == true){
-        setSwipe(highLayers,lowLayers)
+        //only set compare for non-line layers
+        if (highLayers != lineLayersHigh)
+            setSwipe(highLayers,lowLayers)
     }
     else{
         //add layer for high lake level
@@ -370,8 +417,6 @@ function checkBoxes(){
         
         removeLayers();
 
-        checkBoxes();
-
         lakeLevel = level;
         document.querySelector("#lake-level-high").style.background = "none";
         document.querySelector("#lake-level-low").style.background = "none";
@@ -379,10 +424,18 @@ function checkBoxes(){
         elem.style.background = "rgba(255,255,255,0.6)";
 
         if (type == "extent"){
-            addLayers(polyLayersHigh,polyLayersLow)
+            document.querySelectorAll(".extent-layer").forEach(function(checkbox, i){
+                if (checkbox.checked == true){
+                    currentLayer = i;
+                    addLayers(polyLayersHigh,polyLayersLow)
+                }
+            })
         }
         if (type == "depth"){
+            checkBoxes();
+
             addLayers(depthLayersHigh,depthLayersLow)
+            addLayers(lineLayersHigh, lineLayersLow)
         }
 
         addOverlay();
@@ -415,6 +468,7 @@ function checkBoxes(){
             }
             if (type == "depth"){
                 addLayers(depthLayersHigh,depthLayersLow)
+                selectLayer(lineLayersHigh, lineLayersLow)
             }
             //add overlay
             addOverlay();
@@ -451,12 +505,26 @@ function checkBoxes(){
         //add corresponding layers to the swipe button
         highLayers.forEach(function(layer,i){
             if(document.querySelector("#" + layer.title.replace(/\s/g, "")).checked){
-                //set trailing/leading layers
-                swipe.leadingLayers = [layer];
-                swipe.trailingLayers = [lowLayers[i]];
-                //activate layers
-                layer.visible = true;
-                lowLayers[i].visible = true;
+                //add lines to depth map
+                if (type == "depth"){
+                    //set trailing/leading layers
+                    swipe.leadingLayers = [lineLayersHigh[i], layer];
+                    swipe.trailingLayers = [lineLayersLow[i], lowLayers[i]];
+                    //activate layers
+                    layer.visible = true;
+                    lowLayers[i].visible = true;
+                    //activate line outlines
+                    lineLayersHigh[i].visible = true;
+                    lineLayersLow[i].visible = true;
+                }
+                if (type == "extent"){
+                    //set trailing/leading layers
+                    swipe.leadingLayers.push(layer);
+                    swipe.trailingLayers.push(lowLayers[i]);
+                    //activate layers
+                    layer.visible = true;
+                    lowLayers[i].visible = true;
+                }
             };
         })
     }
@@ -475,8 +543,6 @@ function checkBoxes(){
     })
 //CREATE LAYER LISTS
 function selectLayer(highLayers, lowLayers){
-    //hide all lake level layers
-    removeLayers();
     //show high and low lake layers for comparison
     addLayers(highLayers,lowLayers)
     //add overlay layers
@@ -489,17 +555,26 @@ depthLayersHigh.forEach(function(layer, i){
     document.querySelector("#" + layer.title.replace(/\s/g, "")).addEventListener("click",function(){
         currentLayer = i;
         //hide all lake level layers
+        removeLayers();
+
         selectLayer(depthLayersHigh, depthLayersLow)
+        selectLayer(lineLayersHigh, lineLayersLow)
     })
 })
 //////Extent Layer list/////
 polyLayersHigh.forEach(function(layer, i){
     //create radio buttons
-    document.querySelector("#flood-extent-container").insertAdjacentHTML("beforeend","<input id='" + layer.title.replace(/\s/g, "") + "' type='radio' name='flood-layer' class='extent-layer'></input><label class='flood-label'>" + layer.title + "</label><br>")
-    document.querySelector("#" + layer.title.replace(/\s/g, "")).addEventListener("click",function(){
-        currentLayer = i;
-        //hide all lake level layers
-        selectLayer(polyLayersHigh, polyLayersLow)
+    document.querySelector("#flood-extent-container").insertAdjacentHTML("beforeend","<input id='" + layer.title.replace(/\s/g, "") + "' type='checkbox' name='flood-layer' class='extent-layer'></input><label class='flood-label'>" + layer.title + "</label><br>")
+    document.querySelector("#" + layer.title.replace(/\s/g, "")).addEventListener("click",function(event){
+        if (event.target.checked){
+            currentLayer = i;
+            //hide all lake level layers
+            selectLayer(polyLayersHigh, polyLayersLow)
+        }
+        else{
+            polyLayersHigh[i].visible = false;
+            polyLayersLow[i].visible = false;
+        }
     })
     //if it is the first layer in the list, activate that layer and check the associated radio button
     if (i == currentLayer){
@@ -510,7 +585,7 @@ polyLayersHigh.forEach(function(layer, i){
 
 //overlays
 function addOverlay(){
-    lineLayersHigh.forEach(function(layer,i){
+    /*lineLayersHigh.forEach(function(layer,i){
         if (document.querySelector("#f" + layer.title.replace(/\s/g, "")).checked){
             if (lakeLevel == "high"){
                 layer.visible = true;
@@ -523,9 +598,9 @@ function addOverlay(){
             layer.visible = false;
             lineLayersLow[i].visible = false;
         }
-    })
+    })*/
 }
-lineLayersHigh.forEach(function(layer,i){
+/*lineLayersHigh.forEach(function(layer,i){
     document.querySelector("#overlay-container").insertAdjacentHTML("beforeend","<input id='f" + layer.title.replace(/\s/g, "") + "' type='checkbox' name='flood-overlay' class='flood-overlay'></input><label class='overlay-label'>" + layer.title + "</label><br>")
     document.querySelector("#f" + layer.title.replace(/\s/g, "")).addEventListener("click",function(event){
         if (compare == true){
@@ -548,7 +623,7 @@ lineLayersHigh.forEach(function(layer,i){
         }
 
     })
-})
+})*/
 
 /////PRINT FUNCTION/////
     /*const print = new Print({
