@@ -327,6 +327,49 @@ require([
         listMode: "hide"
 
     });
+    //HAZUS Points
+    //High Lake Level
+    let HAZUS_one_year_high = new FeatureLayer({
+        url: "https://services.arcgis.com/HRPe58bUyBqyyiCt/arcgis/rest/services/HAZUS_1Year_High/FeatureServer/0",
+        title: "HAZUS 1-year",
+        visible: false
+    });
+    let HAZUS_ten_year_high = new FeatureLayer({
+        url: "https://services.arcgis.com/HRPe58bUyBqyyiCt/arcgis/rest/services/HAZUS_10Year_High/FeatureServer/0",
+        title: "HAZUS 10-year",
+        visible: false
+    });
+    let HAZUS_one_hundred_year_high = new FeatureLayer({
+        url: "https://services.arcgis.com/HRPe58bUyBqyyiCt/arcgis/rest/services/HAZUS_100Year_High/FeatureServer/0",
+        title: "HAZUS 100-year",
+        visible: false
+    });
+    let HAZUS_five_hundred_year_high = new FeatureLayer({
+        url: "https://services.arcgis.com/HRPe58bUyBqyyiCt/arcgis/rest/services/HAZUS_500Year_High/FeatureServer/0",
+        title: "HAZUS 500-year",
+        visible: false
+    });
+    //Low Lake Level
+    let HAZUS_one_year_low = new FeatureLayer({
+        url: "https://services.arcgis.com/HRPe58bUyBqyyiCt/arcgis/rest/services/HAZUS_1Year_Low/FeatureServer/0",
+        title: "HAZUS 10-year",
+        visible: false
+    });
+    let HAZUS_ten_year_low = new FeatureLayer({
+        url: "https://services.arcgis.com/HRPe58bUyBqyyiCt/arcgis/rest/services/HAZUS_10Year_Low/FeatureServer/0",
+        title: "HAZUS 100-year",
+        visible: false
+    });
+    let HAZUS_one_hundred_year_low = new FeatureLayer({
+        url: "https://services.arcgis.com/HRPe58bUyBqyyiCt/arcgis/rest/services/HAZUS_100Year_Low/FeatureServer/0",
+        title: "HAZUS 100-year",
+        visible: false
+    });
+    let HAZUS_five_hundred_year_low = new FeatureLayer({
+        url: "https://services.arcgis.com/HRPe58bUyBqyyiCt/arcgis/rest/services/HAZUS_500Year_Low/FeatureServer/0",
+        title: "HAZUS 500-year",
+        visible: false
+    });
 
     //raster/polygon/line layer groups
     let lineLayersHigh = [one_year_high_trailing, ten_year_high_trailing, one_hundred_year_high_trailing, five_hundred_year_high_trailing],
@@ -334,8 +377,10 @@ require([
         polyLayersHigh = [one_year_high, ten_year_high, one_hundred_year_high, five_hundred_year_high],
         polyLayersLow = [one_year_low, ten_year_low, one_hundred_year_low, five_hundred_year_low],
         depthLayersHigh = [one_year_high_depth, ten_year_high_depth, one_hundred_year_high_depth, five_hundred_year_high_depth],
-        depthLayersLow = [one_year_low_depth, ten_year_low_depth, one_hundred_year_low_depth, five_hundred_year_low_depth];
-    
+        depthLayersLow = [one_year_low_depth, ten_year_low_depth, one_hundred_year_low_depth, five_hundred_year_low_depth],
+        hazusLayersHigh = [HAZUS_one_year_high, HAZUS_ten_year_high, HAZUS_one_hundred_year_high, HAZUS_five_hundred_year_high],
+        hazusLayersLow = [HAZUS_one_year_low, HAZUS_ten_year_low, HAZUS_one_hundred_year_low, HAZUS_five_hundred_year_low];
+        
     //set default line layer group based on lake depth
     let lineLayers = lineLayersHigh;
 
@@ -343,7 +388,7 @@ require([
     //Set up the basemap
     const map = new Map({
         basemap: "arcgis-topographic",
-        layers: polyLayersHigh.concat(lineLayersHigh).concat(depthLayersHigh).concat(lineLayersLow).concat(polyLayersLow).concat(depthLayersLow)
+        layers: polyLayersHigh.concat(lineLayersHigh).concat(depthLayersHigh).concat(hazusLayersHigh).concat(lineLayersLow).concat(polyLayersLow).concat(depthLayersLow).concat(hazusLayersLow)
     });
 
     //Set up the Map View
@@ -585,21 +630,45 @@ polyLayersHigh.forEach(function(layer, i){
 
 //overlays
 function addOverlay(){
-    /*lineLayersHigh.forEach(function(layer,i){
+    hazusLayersHigh.forEach(function(layer,i){
         if (document.querySelector("#f" + layer.title.replace(/\s/g, "")).checked){
             if (lakeLevel == "high"){
                 layer.visible = true;
             }
             else{
-                lineLayersLow[i].visible = true;
+                hazusLayersLow[i].visible = true;
             }
         }
         else{
             layer.visible = false;
-            lineLayersLow[i].visible = false;
+            hazusLayersLow[i].visible = false;
         }
-    })*/
+    })
 }
+hazusLayersHigh.forEach(function(layer,i){
+    document.querySelector("#overlay-container").insertAdjacentHTML("beforeend","<input id='f" + layer.title.replace(/\s/g, "") + "' type='checkbox' name='flood-overlay' class='flood-overlay'></input><label class='overlay-label'>" + layer.title + "</label><br>")
+    document.querySelector("#f" + layer.title.replace(/\s/g, "")).addEventListener("click",function(event){
+        if (compare == true){
+            if (event.target.checked){
+                layer.visible = true;
+                lineLayersLow[i].visible = true;
+
+                swipe.leadingLayers.push(layer)
+                swipe.trailingLayers.push(hazusLayersLow[i])
+            }
+            else{
+                layer.visible = false;
+                hazusLayersLow[i].visible = false;
+            }
+        }
+        else{
+            //set visibility of selected layer based on 
+            addOverlay();
+    
+        }
+
+    })
+})
 /*lineLayersHigh.forEach(function(layer,i){
     document.querySelector("#overlay-container").insertAdjacentHTML("beforeend","<input id='f" + layer.title.replace(/\s/g, "") + "' type='checkbox' name='flood-overlay' class='flood-overlay'></input><label class='overlay-label'>" + layer.title + "</label><br>")
     document.querySelector("#f" + layer.title.replace(/\s/g, "")).addEventListener("click",function(event){
