@@ -82,6 +82,25 @@ hr{
 .flood-label, .overlay-label{
     font-size:20px;
 }
+.legend-block{
+    width: 20px;
+    height: 20px;
+    display: inline-block;
+    position:relative;
+    margin-bottom:-5px;
+}
+#leg-0{
+    background:rgba(15, 58, 62, 0.8);
+}
+#leg-1{
+    background:rgba(35, 135, 144, 0.8);
+}
+#leg-2{
+    background:rgba(70, 199, 210, 0.8);
+}
+#leg-3{
+    background:rgba(152, 224, 230, 0.8);
+}
 /*Widget Styling*/
 /*basemap gallery*/
 .esri-basemap-gallery{

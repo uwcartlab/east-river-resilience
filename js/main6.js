@@ -120,7 +120,7 @@ require([
     //high lake levels
     let one_year_high_depth = new ImageryTileLayer({
         url: "https://tiledimageservices.arcgis.com/HRPe58bUyBqyyiCt/arcgis/rest/services/depth_1_year_high/ImageServer",
-        title: "Depth 1-year flood",
+        title: "1-year Flood Depth",
         popupEnabled: true,
         popupTemplate: imagePopupTemplate,
         renderer:rasterRenderer,
@@ -130,7 +130,7 @@ require([
     });
     let ten_year_high_depth = new ImageryTileLayer({
         url: "https://tiledimageservices.arcgis.com/HRPe58bUyBqyyiCt/arcgis/rest/services/depth_10_year_high/ImageServer",
-        title: "Depth 10-year flood",
+        title: "10-year Flood Depth",
         popupEnabled: true,
         popupTemplate: imagePopupTemplate,
         renderer:rasterRenderer,
@@ -140,7 +140,7 @@ require([
     });
     let one_hundred_year_high_depth = new ImageryTileLayer({
         url: "https://tiledimageservices.arcgis.com/HRPe58bUyBqyyiCt/arcgis/rest/services/depth_100_year_high/ImageServer",
-        title: "Depth 100-year flood",
+        title: "100-year Flood Depth",
         popupEnabled: true,
         popupTemplate: imagePopupTemplate,
         renderer:rasterRenderer,
@@ -150,7 +150,7 @@ require([
     });
     let five_hundred_year_high_depth = new ImageryTileLayer({
         url: "https://tiledimageservices.arcgis.com/HRPe58bUyBqyyiCt/arcgis/rest/services/depth_500_year_high/ImageServer",
-        title: "Depth 500-year flood",
+        title: "500-year Flood Depth",
         popupEnabled: true,
         popupTemplate: imagePopupTemplate,
         renderer:rasterRenderer,
@@ -161,7 +161,7 @@ require([
     //low lake levels
     let one_year_low_depth = new ImageryTileLayer({
         url: "https://tiledimageservices.arcgis.com/HRPe58bUyBqyyiCt/arcgis/rest/services/depth_1_year_low/ImageServer",
-        title: "Depth 1-year flood",
+        title: "1-year Flood Depth",
         popupEnabled: true,
         popupTemplate: imagePopupTemplate,
         renderer:rasterRenderer,
@@ -171,7 +171,7 @@ require([
     });
     let ten_year_low_depth = new ImageryTileLayer({
         url: "https://tiledimageservices.arcgis.com/HRPe58bUyBqyyiCt/arcgis/rest/services/depth_10_year_low/ImageServer",
-        title: "Depth 10-year flood",
+        title: "10-year Flood Depth",
         popupEnabled: true,
         popupTemplate: imagePopupTemplate,
         renderer:rasterRenderer,
@@ -181,7 +181,7 @@ require([
     });
     let one_hundred_year_low_depth = new ImageryTileLayer({
         url: "https://tiledimageservices.arcgis.com/HRPe58bUyBqyyiCt/arcgis/rest/services/depth_100_year_low/ImageServer",
-        title: "Depth 100-year flood",
+        title: "100-year Flood Depth",
         popupEnabled: true,
         popupTemplate: imagePopupTemplate,
         renderer:rasterRenderer,
@@ -191,7 +191,7 @@ require([
     });
     let five_hundred_year_low_depth = new ImageryTileLayer({
         url: "https://tiledimageservices.arcgis.com/HRPe58bUyBqyyiCt/arcgis/rest/services/depth_500_year_low/ImageServer",
-        title: "Depth 500-year flood",
+        title: "500-year Flood Depth",
         popupEnabled: true,
         popupTemplate: imagePopupTemplate,
         renderer:rasterRenderer,
@@ -203,7 +203,7 @@ require([
     //high Lake level
     let one_year_high = new FeatureLayer({
         url: "https://services.arcgis.com/HRPe58bUyBqyyiCt/arcgis/rest/services/1_year_high_lake_level/FeatureServer/13",
-        title: "Extent 1-year flood",
+        title: "1-year Flood Extent",
         visible: false,
         renderer: polygonStyle,
         blendMode:"multiply",
@@ -211,7 +211,7 @@ require([
     });
     let ten_year_high = new FeatureLayer({
         url: "https://services.arcgis.com/HRPe58bUyBqyyiCt/arcgis/rest/services/Map1/FeatureServer/0",
-        title: "Extent 10-year flood",
+        title: "10-year Flood Extent",
         visible: false,
         renderer: polygonStyle2,
         blendMode:"multiply",
@@ -219,7 +219,7 @@ require([
     });
     let one_hundred_year_high = new FeatureLayer({
         url: "https://services.arcgis.com/HRPe58bUyBqyyiCt/arcgis/rest/services/100_year_high_lake_level/FeatureServer/0",
-        title: "Extent 100-year flood",
+        title: "100-year Flood Extent",
         visible: false,
         renderer: polygonStyle3,
         blendMode:"multiply",
@@ -227,7 +227,7 @@ require([
     });
     let five_hundred_year_high = new FeatureLayer({
         url: "https://services.arcgis.com/HRPe58bUyBqyyiCt/arcgis/rest/services/500_year_high_lake_level/FeatureServer/0",
-        title: "Extent 500-year flood",
+        title: "500-year Flood Extent",
         visible: false,
         renderer: polygonStyle4,
         blendMode:"multiply",
@@ -237,7 +237,7 @@ require([
     //low lake Level
     let one_year_low = new FeatureLayer({
         url: "https://services.arcgis.com/HRPe58bUyBqyyiCt/arcgis/rest/services/1_year_low_lake_level/FeatureServer/0",
-        title: "Extent 1-year flood",
+        title: "1-year Flood Extent",
         visible: false,
         renderer: polygonStyle,
         blendMode:"multiply",
@@ -245,7 +245,7 @@ require([
     });
     let ten_year_low = new FeatureLayer({
         url: "https://services.arcgis.com/HRPe58bUyBqyyiCt/arcgis/rest/services/10_year_low/FeatureServer/0",
-        title: "Extent 10-year flood",
+        title: "10-year Flood Extent",
         visible: false,
         renderer: polygonStyle2,
         blendMode:"multiply",
@@ -253,7 +253,7 @@ require([
     });
     let one_hundred_year_low = new FeatureLayer({
         url: "https://services.arcgis.com/HRPe58bUyBqyyiCt/arcgis/rest/services/100_year_lake_level_low/FeatureServer/0",
-        title: "Extent 100-year flood",
+        title: "100-year Flood Extent",
         visible: false,
         renderer: polygonStyle3,
         blendMode:"multiply",
@@ -261,7 +261,7 @@ require([
     });
     let five_hundred_year_low = new FeatureLayer({
         url: "https://services.arcgis.com/HRPe58bUyBqyyiCt/arcgis/rest/services/500_year_low/FeatureServer/0",
-        title: "Extent 500-year flood",
+        title: "500-year Flood Extent",
         visible: false,
         renderer: polygonStyle4,
         blendMode:"multiply",
@@ -300,28 +300,28 @@ require([
     //low lake level 
     let one_year_low_trailing = new FeatureLayer({
         url: "https://services.arcgis.com/HRPe58bUyBqyyiCt/arcgis/rest/services/1_year_low_lake_level/FeatureServer/0",
-        title: "1-year flood",
+        title: "1-year flood line",
         visible: false,
         renderer: lineStyle,
         listMode: "hide"
     });
     let ten_year_low_trailing = new FeatureLayer({
         url: "https://services.arcgis.com/HRPe58bUyBqyyiCt/arcgis/rest/services/10_year_low/FeatureServer/0",
-        title: "50-year flood",
+        title: "50-year flood line",
         visible: false,
         renderer: lineStyle,
         listMode: "hide"
     });
     let one_hundred_year_low_trailing = new FeatureLayer({
         url: "https://services.arcgis.com/HRPe58bUyBqyyiCt/arcgis/rest/services/100_year_lake_level_low/FeatureServer/0",
-        title: "100-year flood",
+        title: "100-year flood line",
         visible: false,
         renderer: lineStyle,
         listMode: "hide"
     });
     let five_hundred_year_low_trailing = new FeatureLayer({
         url: "https://services.arcgis.com/HRPe58bUyBqyyiCt/arcgis/rest/services/500_year_low/FeatureServer/0",
-        title: "500-year flood",
+        title: "500-year flood line",
         visible: false,
         renderer: lineStyle,
         listMode: "hide"
@@ -331,43 +331,43 @@ require([
     //High Lake Level
     let HAZUS_one_year_high = new FeatureLayer({
         url: "https://services.arcgis.com/HRPe58bUyBqyyiCt/arcgis/rest/services/HAZUS_1Year_High/FeatureServer/0",
-        title: "HAZUS 1-year",
+        title: "1-year HAZUS",
         visible: false
     });
     let HAZUS_ten_year_high = new FeatureLayer({
         url: "https://services.arcgis.com/HRPe58bUyBqyyiCt/arcgis/rest/services/HAZUS_10Year_High/FeatureServer/0",
-        title: "HAZUS 10-year",
+        title: "10-year HAZUS",
         visible: false
     });
     let HAZUS_one_hundred_year_high = new FeatureLayer({
         url: "https://services.arcgis.com/HRPe58bUyBqyyiCt/arcgis/rest/services/HAZUS_100Year_High/FeatureServer/0",
-        title: "HAZUS 100-year",
+        title: "100-year HAZUS",
         visible: false
     });
     let HAZUS_five_hundred_year_high = new FeatureLayer({
         url: "https://services.arcgis.com/HRPe58bUyBqyyiCt/arcgis/rest/services/HAZUS_500Year_High/FeatureServer/0",
-        title: "HAZUS 500-year",
+        title: "500-year HAZUS",
         visible: false
     });
     //Low Lake Level
     let HAZUS_one_year_low = new FeatureLayer({
         url: "https://services.arcgis.com/HRPe58bUyBqyyiCt/arcgis/rest/services/HAZUS_1Year_Low/FeatureServer/0",
-        title: "HAZUS 10-year",
+        title: "1-year HAZUS",
         visible: false
     });
     let HAZUS_ten_year_low = new FeatureLayer({
         url: "https://services.arcgis.com/HRPe58bUyBqyyiCt/arcgis/rest/services/HAZUS_10Year_Low/FeatureServer/0",
-        title: "HAZUS 100-year",
+        title: "10-year HAZUS",
         visible: false
     });
     let HAZUS_one_hundred_year_low = new FeatureLayer({
         url: "https://services.arcgis.com/HRPe58bUyBqyyiCt/arcgis/rest/services/HAZUS_100Year_Low/FeatureServer/0",
-        title: "HAZUS 100-year",
+        title: "100-year HAZUS",
         visible: false
     });
     let HAZUS_five_hundred_year_low = new FeatureLayer({
         url: "https://services.arcgis.com/HRPe58bUyBqyyiCt/arcgis/rest/services/HAZUS_500Year_Low/FeatureServer/0",
-        title: "HAZUS 500-year",
+        title: "500-year HAZUS",
         visible: false
     });
 
@@ -549,7 +549,7 @@ function checkBoxes(){
         })
         //add corresponding layers to the swipe button
         highLayers.forEach(function(layer,i){
-            if(document.querySelector("#" + layer.title.replace(/\s/g, "")).checked){
+            if(document.querySelector("#f" + layer.title.replace(/\s/g, "")).checked){
                 //add lines to depth map
                 if (type == "depth"){
                     //set trailing/leading layers
@@ -596,8 +596,8 @@ function selectLayer(highLayers, lowLayers){
 //////Depth Layer list/////
 depthLayersHigh.forEach(function(layer, i){
     //create radio buttons
-    document.querySelector("#flood-depth-container").insertAdjacentHTML("beforeend","<input id='" + layer.title.replace(/\s/g, "") + "' type='radio' name='flood-layer' class='depth-layer'></input><label class='flood-label'>" + layer.title + "</label><br>")
-    document.querySelector("#" + layer.title.replace(/\s/g, "")).addEventListener("click",function(){
+    document.querySelector("#flood-depth-container").insertAdjacentHTML("beforeend","<input id='f" + layer.title.replace(/\s/g, "") + "' type='radio' name='flood-layer' class='depth-layer'></input><label class='flood-label'>" + layer.title + "</label><br>")
+    document.querySelector("#f" + layer.title.replace(/\s/g, "")).addEventListener("click",function(){
         currentLayer = i;
         //hide all lake level layers
         removeLayers();
@@ -609,8 +609,8 @@ depthLayersHigh.forEach(function(layer, i){
 //////Extent Layer list/////
 polyLayersHigh.forEach(function(layer, i){
     //create radio buttons
-    document.querySelector("#flood-extent-container").insertAdjacentHTML("beforeend","<input id='" + layer.title.replace(/\s/g, "") + "' type='checkbox' name='flood-layer' class='extent-layer'></input><label class='flood-label'>" + layer.title + "</label><br>")
-    document.querySelector("#" + layer.title.replace(/\s/g, "")).addEventListener("click",function(event){
+    document.querySelector("#flood-extent-container").insertAdjacentHTML("beforeend","<b id='leg-" + i + "' class='legend-block'></b><input id='f" + layer.title.replace(/\s/g, "") + "' type='checkbox' name='flood-layer' class='extent-layer'></input><label class='flood-label'>" + layer.title + "</label><br>")
+    document.querySelector("#f" + layer.title.replace(/\s/g, "")).addEventListener("click",function(event){
         if (event.target.checked){
             currentLayer = i;
             //hide all lake level layers
@@ -624,7 +624,7 @@ polyLayersHigh.forEach(function(layer, i){
     //if it is the first layer in the list, activate that layer and check the associated radio button
     if (i == currentLayer){
         layer.visible = true;
-        document.querySelector("#" + layer.title.replace(/\s/g, "")).checked = true;
+        document.querySelector("#f" + layer.title.replace(/\s/g, "")).checked = true;
     }
 })
 
