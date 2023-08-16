@@ -101,11 +101,29 @@ hr{
 #leg-3{
     background:rgba(152, 224, 230, 0.8);
 }
+#ovr-0{
+    background:#5d090b;
+}
+#ovr-1{
+    background:#b1201b;
+}
+#ovr-2{
+    background:#fb6a4a;
+}
+#ovr-3{
+    background:#fcae91;
+}
 /*Widget Styling*/
 /*basemap gallery*/
-.esri-basemap-gallery{
+.esri-basemap-gallery, .esri-distance-measurement-2d__container, .esri-print__container, .esri-print, .esri-widget--button{
     background:#1b666b;
     padding:10px;
+    color:white;
+    border:#24888f outset 2px;
+}
+.esri-widget--button:hover{
+    background:#238890;
+    color:white;
 }
 .esri-basemap-gallery__item-title{
     color:white; 
@@ -143,6 +161,14 @@ hr{
 .esri-popup__button{
     color:white;
 }
+/*print styling*/
+.esri-print__container input, .esri-print__container select, .esri-print__container li, .esri-print__container button{
+    background:#e9e7da;
+    color:#023e48
+}
+.esri-print__layout-tab[aria-selected="true"]{
+    background: white;
+}
 /*swipe label styling*/
 .swipe-label-container{
     display:none;
@@ -164,6 +190,19 @@ hr{
 }
 #high{
     left:calc(100vw - 70px);
+}
+/*Widget Toolbar*/
+#toolbarDiv {
+    position: absolute;
+    top: 15px;
+    right: 15px;
+    cursor: default;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: nowrap;  
+}
+.esri-ui-top-right{
+    top:50px;
 }
 /*Responsive design*/
 @media screen and (min-width: 539px){

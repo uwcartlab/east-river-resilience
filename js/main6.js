@@ -8,9 +8,10 @@ require([
     "esri/layers/ImageryTileLayer",
     "esri/widgets/Swipe",
     "esri/widgets/Print",
-    "esri/rest/support/AlgorithmicColorRamp"
+    "esri/rest/support/AlgorithmicColorRamp",
+    "esri/widgets/Measurement"
 
-], function (esriConfig, Map, MapView, FeatureLayer, Basemap, BasemapGallery, ImageryTileLayer, Swipe, Print, AlgorithmicColorRamp) {
+], function (esriConfig, Map, MapView, FeatureLayer, Basemap, BasemapGallery, ImageryTileLayer, Swipe, Print, AlgorithmicColorRamp, Measurement) {
 //////GLOBAL VARIABLES////////
     //Set the API key
     esriConfig.apiKey = "AAPK539d9a98e214453db04a93dfaea676adrxOVh3ZE6LGf-_99lThjFmfwvhD2YHTXoC2px7zOQ0x8qZ9nwvwoeuZn0PgmFA_f"
@@ -100,6 +101,59 @@ require([
             max: 10 
         }]
     }
+/////POINT RENDERER//////
+const pointStyle = {
+    type: "simple",
+    symbol: {
+        type: "simple-marker",  
+        size: 5,
+        color:"#5d090b",
+        outline: {
+            style: "solid",
+            width: "1",
+            color: "white"
+        }
+    }
+}
+const pointStyle2 = {
+    type: "simple",
+    symbol: {
+        type: "simple-marker",  
+        size: 5,
+        color:"#b1201b",
+        outline: {
+            style: "solid",
+            width: "0.5",
+            color: "white"
+        }
+    }
+}
+const pointStyle3 = {
+    type: "simple",
+    symbol: {
+        type: "simple-marker",  
+        size: 5,
+        color:"#fb6a4a",
+        outline: {
+            style: "solid",
+            width: "0.5",
+            color: "white"
+        }
+    }
+}
+const pointStyle4 = {
+    type: "simple",
+    symbol: {
+        type: "simple-marker",  
+        size: 5,
+        color:"#fcae91",
+        outline: {
+            style: "solid",
+            width: "0.5",
+            color: "white"
+        }
+    }
+}
 /////POPUP RENDERER//////
   //depth popup
   const imagePopupTemplate = {
@@ -332,45 +386,57 @@ require([
     let HAZUS_one_year_high = new FeatureLayer({
         url: "https://services.arcgis.com/HRPe58bUyBqyyiCt/arcgis/rest/services/HAZUS_1Year_High/FeatureServer/0",
         title: "1-year HAZUS",
-        visible: false
+        visible: false,
+        blendMode:"darken",
+        renderer:pointStyle
     });
     let HAZUS_ten_year_high = new FeatureLayer({
         url: "https://services.arcgis.com/HRPe58bUyBqyyiCt/arcgis/rest/services/HAZUS_10Year_High/FeatureServer/0",
         title: "10-year HAZUS",
-        visible: false
+        visible: false,
+        blendMode:"darken",
+        renderer:pointStyle2
     });
     let HAZUS_one_hundred_year_high = new FeatureLayer({
         url: "https://services.arcgis.com/HRPe58bUyBqyyiCt/arcgis/rest/services/HAZUS_100Year_High/FeatureServer/0",
         title: "100-year HAZUS",
-        visible: false
+        visible: false,
+        blendMode:"darken",
+        renderer:pointStyle3
     });
     let HAZUS_five_hundred_year_high = new FeatureLayer({
         url: "https://services.arcgis.com/HRPe58bUyBqyyiCt/arcgis/rest/services/HAZUS_500Year_High/FeatureServer/0",
         title: "500-year HAZUS",
-        visible: false
+        visible: false,
+        blendMode:"darken",
+        renderer:pointStyle4
     });
     //Low Lake Level
     let HAZUS_one_year_low = new FeatureLayer({
         url: "https://services.arcgis.com/HRPe58bUyBqyyiCt/arcgis/rest/services/HAZUS_1Year_Low/FeatureServer/0",
         title: "1-year HAZUS",
-        visible: false
+        visible: false,
+        renderer:pointStyle
     });
     let HAZUS_ten_year_low = new FeatureLayer({
         url: "https://services.arcgis.com/HRPe58bUyBqyyiCt/arcgis/rest/services/HAZUS_10Year_Low/FeatureServer/0",
         title: "10-year HAZUS",
-        visible: false
+        visible: false,
+        renderer:pointStyle2
     });
     let HAZUS_one_hundred_year_low = new FeatureLayer({
         url: "https://services.arcgis.com/HRPe58bUyBqyyiCt/arcgis/rest/services/HAZUS_100Year_Low/FeatureServer/0",
         title: "100-year HAZUS",
-        visible: false
+        visible: false,
+        renderer:pointStyle3
     });
     let HAZUS_five_hundred_year_low = new FeatureLayer({
         url: "https://services.arcgis.com/HRPe58bUyBqyyiCt/arcgis/rest/services/HAZUS_500Year_Low/FeatureServer/0",
         title: "500-year HAZUS",
-        visible: false
+        visible: false,
+        renderer:pointStyle4
     });
-
+///change order of features
     //raster/polygon/line layer groups
     let lineLayersHigh = [one_year_high_trailing, ten_year_high_trailing, one_hundred_year_high_trailing, five_hundred_year_high_trailing],
         lineLayersLow = [one_year_low_trailing, ten_year_low_trailing, one_hundred_year_low_trailing, five_hundred_year_low_trailing],
@@ -388,7 +454,7 @@ require([
     //Set up the basemap
     const map = new Map({
         basemap: "arcgis-topographic",
-        layers: polyLayersHigh.concat(lineLayersHigh).concat(depthLayersHigh).concat(hazusLayersHigh).concat(lineLayersLow).concat(polyLayersLow).concat(depthLayersLow).concat(hazusLayersLow)
+        layers: polyLayersHigh.concat(lineLayersHigh).concat(depthLayersHigh).concat(lineLayersLow).concat(polyLayersLow).concat(depthLayersLow).concat(hazusLayersLow).concat(hazusLayersHigh)
     });
 
     //Set up the Map View
@@ -404,6 +470,9 @@ require([
         }
     });
 
+/////WIDGETS
+    let basemap = false, measure = false, printer = false;
+//basemap gallery
     //Basemap layers for gallery widget
     let arcgisTopo = Basemap.fromId("arcgis-topographic")
     let arcgisHybrid = Basemap.fromId("arcgis-imagery")
@@ -413,7 +482,77 @@ require([
         view: view,
         source: [arcgisTopo, arcgisHybrid]
     });
-
+//print
+    const print = new Print({
+        view: view,
+        // specify your own print service
+        printServiceUrl:
+            "https://utility.arcgisonline.com/arcgis/rest/services/Utilities/PrintingTools/GPServer/Export%20Web%20Map%20Task"
+    });
+//widget listeners
+//basemap
+document.querySelector("#basemap").addEventListener("click",function(elem){
+    if (basemap == false){
+        clearWidgets();
+        basemap = true;
+        view.ui.add(basemapGallery, {
+            position: "top-right"
+        });
+    }
+    else{
+        basemap = false;
+        view.ui.remove(basemapGallery)
+    }
+})
+//measure
+let measurement;
+document.querySelector("#measure").addEventListener("click",function(elem){
+    //map measure tool
+    if (measure == false){
+        clearWidgets();
+        measure = true;
+        measurement = new Measurement({
+            view: view,
+            activeTool: "distance"
+        });
+        view.ui.add(measurement, "top-right");
+    }
+    else{
+        measure = false;
+        view.ui.remove(measurement)
+        measurement.clear();
+    }
+})
+//print
+document.querySelector("#print").addEventListener("click",function(elem){
+    if (printer == false){
+        clearWidgets();
+        printer = true;
+        view.ui.add(print, {
+            position: "top-right"
+        });
+    }
+    else{
+        printer = false;
+        view.ui.remove(print);
+    }
+})
+//clear other widgets
+function clearWidgets(){
+    if (basemap == true){
+        basemap = false;
+        view.ui.remove(basemapGallery)
+    }
+    if (measure == true){
+        measure = false;
+        view.ui.remove(measurement)
+        measurement.clear();
+    }
+    if (printer == true){
+        printer = false;
+        view.ui.remove(print);  
+    }
+}
 /////UNIVERSAL FUNCTIONS
 //add a layer
 function addLayers(highLayers, lowLayers){
@@ -544,9 +683,10 @@ function checkBoxes(){
         //remove all map layers
         removeLayers();
         //clear overlay checkboxes
-        document.querySelectorAll(".flood-overlay").forEach(function(elem){
+        /*document.querySelectorAll(".flood-overlay").forEach(function(elem){
             elem.checked = false;
-        })
+        })*/
+        addOverlay();
         //add corresponding layers to the swipe button
         highLayers.forEach(function(layer,i){
             if(document.querySelector("#f" + layer.title.replace(/\s/g, "")).checked){
@@ -632,11 +772,20 @@ polyLayersHigh.forEach(function(layer, i){
 function addOverlay(){
     hazusLayersHigh.forEach(function(layer,i){
         if (document.querySelector("#f" + layer.title.replace(/\s/g, "")).checked){
-            if (lakeLevel == "high"){
+            if (compare == true){
                 layer.visible = true;
+                hazusLayersLow[i].visible = true;
+
+                swipe.leadingLayers.push(layer)
+                swipe.trailingLayers.push(hazusLayersLow[i])
             }
             else{
-                hazusLayersLow[i].visible = true;
+                if (lakeLevel == "high"){
+                    layer.visible = true;
+                }
+                else{
+                    hazusLayersLow[i].visible = true;
+                }
             }
         }
         else{
@@ -645,13 +794,14 @@ function addOverlay(){
         }
     })
 }
+
 hazusLayersHigh.forEach(function(layer,i){
-    document.querySelector("#overlay-container").insertAdjacentHTML("beforeend","<input id='f" + layer.title.replace(/\s/g, "") + "' type='checkbox' name='flood-overlay' class='flood-overlay'></input><label class='overlay-label'>" + layer.title + "</label><br>")
+    document.querySelector("#overlay-container").insertAdjacentHTML("beforeend","<b id='ovr-" + i + "' class='legend-block'></b><input id='f" + layer.title.replace(/\s/g, "") + "' type='checkbox' name='flood-overlay' class='flood-overlay'></input><label class='overlay-label'>" + layer.title + "</label><br>")
     document.querySelector("#f" + layer.title.replace(/\s/g, "")).addEventListener("click",function(event){
         if (compare == true){
             if (event.target.checked){
                 layer.visible = true;
-                lineLayersLow[i].visible = true;
+                hazusLayersLow[i].visible = true;
 
                 swipe.leadingLayers.push(layer)
                 swipe.trailingLayers.push(hazusLayersLow[i])
@@ -720,7 +870,7 @@ hazusLayersHigh.forEach(function(layer,i){
 /////RESPONSIVE DESIGN
     function resize(){
         let w = document.querySelector("body").clientWidth;
-        if (w > 539){
+        /*if (w > 539){
             view.ui.add(basemapGallery, {
                 position: "top-right"
             });
@@ -729,7 +879,7 @@ hazusLayersHigh.forEach(function(layer,i){
             view.ui.remove(basemapGallery, {
                 position: "top-right"
             });
-        }
+        }*/
     }
 
     document.querySelector("#show-panel").addEventListener("click",function(event){
