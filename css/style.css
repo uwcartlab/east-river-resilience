@@ -72,7 +72,7 @@ html{
     padding:15px;
     border-right: 2px solid #1b666b;
     position:relative;
-    z-index:100000;
+    z-index:100;
 }
 hr{
     color:#1b666b;
@@ -113,6 +113,29 @@ hr{
 #ovr-3{
     background:#fcae91;
 }
+#svi-block{
+    margin-top:15px;
+}
+.svi-leg-block{
+    width:45px;
+    height:25px;
+    display:inline-block;
+}
+#svi-leg-block-container{
+    margin-left:25px;
+    margin-top:5px;
+    display:block;
+}
+#svi-leg-block-label{
+    margin-left:25px;
+    display:block;
+}
+#svi-leg-block-label > p{
+    margin-top:5px;
+}
+#svi-leg{
+    display:none;
+}
 /*Widget Styling*/
 /*basemap gallery*/
 .esri-basemap-gallery, .esri-distance-measurement-2d__container, .esri-print__container, .esri-print, .esri-widget--button{
@@ -133,6 +156,10 @@ hr{
 }
 .esri-basemap-gallery__item:hover{
     background:rgba(255,255,255,0.5);
+    color:white;
+}
+.esri-distance-measurement-2d__measurement{
+    background:#1b666b;
     color:white;
 }
 /*layer list styling*/
@@ -204,6 +231,70 @@ hr{
 .esri-ui-top-right{
     top:50px;
 }
+/*modal*/
+/* The Modal (background) */
+ .modal {
+    display: none; /* Hidden by default */
+    position: fixed; /* Stay in place */
+    z-index: 150; /* Sit on top */
+    left: 0;
+    top: 0;
+    width: 100vw; /* Full width */
+    height: 100vh; /* Full height */
+    overflow: auto; /* Enable scroll if needed */
+    background-color: #e9e7da;
+    background-color: #e9e7da; /* Black w/ opacity */
+  }
+  
+/* Modal Content/Box */
+  .modal-content {
+    width:calc(100% - 40px); /* Could be more or less, depending on screen size */
+    height:calc(100% - 40px);
+    padding:20px;
+    background:#e9e7da;
+    color:#1b666b;
+    margin-bottom:50px;
+  }
+  .modal-content p {
+    margin:0;
+    font-size:24px;
+  }
+  .modal-content img{
+    width:400px;
+    margin-bottom:15px;
+  }
+  .modal-desc{
+    display:inline;
+  }
+  
+/* The Close Button */
+  #x {
+    color: #aaa;
+    float: right;
+    font-size: 28px;
+    font-weight: bold;
+  }
+  
+  #x:hover,
+  #x:focus {
+    color: black;
+    text-decoration: none;
+    cursor: pointer;
+  } 
+
+  #close-button{
+    background:none;
+    border: 2px #1b666b solid;
+    color:#1b666b;
+    font-size:20px;
+    font-weight:bold;
+    padding:5px;
+    margin:auto;
+  }
+  #close-button:hover{
+    cursor: pointer;
+    background: #cfcaaf;
+  }
 /*Responsive design*/
 @media screen and (min-width: 539px){
     #infoPanel{

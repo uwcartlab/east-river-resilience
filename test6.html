@@ -15,28 +15,54 @@
     </head>
     
     <body>
+        <!--About modal-->
+        <!-- The Modal -->
+        <div id="about-modal" class="modal">
+            <!-- Modal content -->
+            <div class="modal-content">
+                <span id="x" class="close-modal">&times;</span>
+                <img src="assets/logo.png">
+                <p>Welcome to the East River Resiliency project, presented by the East River Collaborative. This tool allows you to view and compare different East River flooding scenarios in and around Green Bay, Wisconsin.</p>
+                <h2 class="selection">How to Use</h2>
+                <h2 class="selection modal-desc">Select a Display: </h2>
+                <p class="modal-desc">Select how you want the flood to be displayed. <b>Extent</b> displays the footprint of the flood, while <b>Depth</b> displays the flood depth.</p>
+                </br></br>
+                <h2 class="selection modal-desc">Select a Lake Level: </h2>
+                <p class="modal-desc">The extent and depth of flooding depends on the level of Lake Michigan. <b>High</b> will show flood levels when the lake is high, <b>Low</b> will show flood levels when the lake is low.</p>
+                </br></br>
+                <h2 class="selection modal-desc">Select a Flood Level</h2>
+                <p class="modal-desc">Select one or more flooding scenarios. These scenarios are ranked in order of severity, with a 1-year flood being the least severe, and a 500 year flood being the most severe.</p>
+                </br></br>
+                <h2 class="selection modal-desc">Add Overlays</h2>
+                <p class="modal-desc">You are also able to add some supplementary data to the map, including the HAZUS dataset, which shows which buildings will be affected by various flooding scenarios, and the Social Vulnerability Index (SVI) for census block groups along the river.</p>
+                </br></br>
+                <button id="close-button" class="close-modal">Close</button>
+            </div>
+        </div>
+
         <div id="infoPanel">
             <img src="assets/logo.png">
             <hr>
+            <button id="about-button">About</button>
             <div id="data-type-container">
-                <h2 class="selection">Select Flood Display: </h2>
+                <h2 class="selection">Select Flood Display </h2>
                 <button class="data-type" id="extent" style="background:rgba(255,255,255,0.6)">Extent</button>
                 <button class="data-type" id="depth">Depth</button>
             </div>
             <div id="lake-level-container">
-                <h2 class="selection">Select Lake Level: </h2>
+                <h2 class="selection">Select Lake Level </h2>
                 <button id="lake-level-low">Low</button>
                 <button id="lake-level-high" style="background:rgba(255,255,255,0.6)">High</button>
                 <button id="lake-level-compare">Compare</button>
             </div>
             <div class="flood-container" id="flood-extent-container">
-                <h2 class="selection">Select Flood Level: </h2>
+                <h2 class="selection">Select Flood Level </h2>
             </div>
             <div class="flood-container" id="flood-depth-container" style="display:none">
-                <h2 class="selection">Select Flood Level: </h2>
+                <h2 class="selection">Select Flood Level </h2>
             </div>
             <div id="overlay-container">
-                <h2 class="selection">Add overlays: </h2>
+                <h2 class="selection">Add overlays </h2>
             </div>
             <div id="infoText">
                 <!--

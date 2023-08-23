@@ -154,6 +154,87 @@ const pointStyle4 = {
         }
     }
 }
+/////SVI Style
+//svi block style
+const less35 = {
+    type: "simple-fill", // autocasts as new SimpleFillSymbol()
+    color: [255,255,255,0.8],
+    style: "solid",
+    outline: {
+      width: 0.2,
+      color: [255, 255, 255, 0.5]
+    }
+  };
+const less50 = {
+    type: "simple-fill", // autocasts as new SimpleFillSymbol()
+    color: [217,217,217,0.8],
+    style: "solid",
+    outline: {
+      width: 0.2,
+      color: [255, 255, 255, 0.5]
+    }
+};
+  
+const more50 = {
+    type: "simple-fill", // autocasts as new SimpleFillSymbol()
+    color: [140,140,140,0.8],
+    style: "solid",
+    outline: {
+      width: 0.2,
+      color: [255, 255, 255, 0.5]
+    }
+};
+  
+const more75 = {
+    type: "simple-fill", // autocasts as new SimpleFillSymbol()
+    color: [51,51,51,0.7],
+    style: "solid",
+    outline: {
+      width: 0.2,
+      color: [255, 255, 255, 0.5]
+    }
+};
+
+const sviStyle = {
+    type: "class-breaks", // autocasts as new ClassBreaksRenderer()
+    field: "SoVIScore", // total number of adults (25+) with a college degree
+    defaultSymbol: {
+      type: "simple-fill", // autocasts as new SimpleFillSymbol()
+      color: "black",
+      style: "backward-diagonal",
+      outline: {
+        width: 0.5,
+        color: [50, 50, 50, 0.6]
+      }
+    },
+    defaultLabel: "no data",
+    classBreakInfos: [
+        {
+          minValue: 0,
+          maxValue: 0.3499,
+          symbol: less35,
+          label: "< 35%" // label for symbol in legend
+        },
+        {
+          minValue: 0.35,
+          maxValue: 0.4999,
+          symbol: less50,
+          label: "35 - 50%" // label for symbol in legend
+        },
+        {
+          minValue: 0.5,
+          maxValue: 0.7499,
+          symbol: more50,
+          label: "50 - 75%" // label for symbol in legend
+        },
+        {
+          minValue: 0.75,
+          maxValue: 1.0,
+          symbol: more75,
+          label: "> 75%" // label for symbol in legend
+        }
+      ]
+  };
 /////POPUP RENDERER//////
   //depth popup
   const imagePopupTemplate = {
@@ -436,6 +517,13 @@ const pointStyle4 = {
         visible: false,
         renderer:pointStyle4
     });
+    //SVI block groups
+    let svi_blocks = new FeatureLayer({
+        url: "https://services.arcgis.com/HRPe58bUyBqyyiCt/arcgis/rest/services/EastRiver_SoVI/FeatureServer/0",
+        title: "Social Vulnerability",
+        visible: false,
+        renderer:sviStyle
+    });
 ///change order of features
     //raster/polygon/line layer groups
     let lineLayersHigh = [one_year_high_trailing, ten_year_high_trailing, one_hundred_year_high_trailing, five_hundred_year_high_trailing],
@@ -445,7 +533,8 @@ const pointStyle4 = {
         depthLayersHigh = [one_year_high_depth, ten_year_high_depth, one_hundred_year_high_depth, five_hundred_year_high_depth],
         depthLayersLow = [one_year_low_depth, ten_year_low_depth, one_hundred_year_low_depth, five_hundred_year_low_depth],
         hazusLayersHigh = [HAZUS_one_year_high, HAZUS_ten_year_high, HAZUS_one_hundred_year_high, HAZUS_five_hundred_year_high],
-        hazusLayersLow = [HAZUS_one_year_low, HAZUS_ten_year_low, HAZUS_one_hundred_year_low, HAZUS_five_hundred_year_low];
+        hazusLayersLow = [HAZUS_one_year_low, HAZUS_ten_year_low, HAZUS_one_hundred_year_low, HAZUS_five_hundred_year_low],
+        overlays = [svi_blocks];
         
     //set default line layer group based on lake depth
     let lineLayers = lineLayersHigh;
@@ -454,7 +543,7 @@ const pointStyle4 = {
     //Set up the basemap
     const map = new Map({
         basemap: "arcgis-topographic",
-        layers: polyLayersHigh.concat(lineLayersHigh).concat(depthLayersHigh).concat(lineLayersLow).concat(polyLayersLow).concat(depthLayersLow).concat(hazusLayersLow).concat(hazusLayersHigh)
+        layers: overlays.concat(polyLayersHigh).concat(lineLayersHigh).concat(depthLayersHigh).concat(lineLayersLow).concat(polyLayersLow).concat(depthLayersLow).concat(hazusLayersLow).concat(hazusLayersHigh)
     });
 
     //Set up the Map View
@@ -621,7 +710,8 @@ function checkBoxes(){
             addLayers(depthLayersHigh,depthLayersLow)
             addLayers(lineLayersHigh, lineLayersLow)
         }
-
+        //add overlays
+        addSvi();
         addOverlay();
     }
     //add listeners to the selection buttons
@@ -654,7 +744,8 @@ function checkBoxes(){
                 addLayers(depthLayersHigh,depthLayersLow)
                 selectLayer(lineLayersHigh, lineLayersLow)
             }
-            //add overlay
+            //add overlays
+            addSvi();
             addOverlay();
         })
     })
@@ -686,6 +777,7 @@ function checkBoxes(){
         /*document.querySelectorAll(".flood-overlay").forEach(function(elem){
             elem.checked = false;
         })*/
+        addSvi();
         addOverlay();
         //add corresponding layers to the swipe button
         highLayers.forEach(function(layer,i){
@@ -744,6 +836,8 @@ depthLayersHigh.forEach(function(layer, i){
 
         selectLayer(depthLayersHigh, depthLayersLow)
         selectLayer(lineLayersHigh, lineLayersLow)
+
+        addSvi();
     })
 })
 //////Extent Layer list/////
@@ -814,59 +908,51 @@ hazusLayersHigh.forEach(function(layer,i){
         else{
             //set visibility of selected layer based on 
             addOverlay();
-    
         }
 
     })
 })
-/*lineLayersHigh.forEach(function(layer,i){
-    document.querySelector("#overlay-container").insertAdjacentHTML("beforeend","<input id='f" + layer.title.replace(/\s/g, "") + "' type='checkbox' name='flood-overlay' class='flood-overlay'></input><label class='overlay-label'>" + layer.title + "</label><br>")
-    document.querySelector("#f" + layer.title.replace(/\s/g, "")).addEventListener("click",function(event){
-        if (compare == true){
-            if (event.target.checked){
-                layer.visible = true;
-                lineLayersLow[i].visible = true;
 
-                swipe.leadingLayers.push(layer)
-                swipe.trailingLayers.push(lineLayersLow[i])
-            }
-            else{
-                layer.visible = false;
-                lineLayersLow[i].visible = false;
-            }
+overlays.forEach(function(layer){
+    document.querySelector("#overlay-container").insertAdjacentHTML("beforeend","<b id='svi-block' class='legend-block'></b><input id='svi' type='checkbox' name='flood-overlay' class='flood-overlay'></input><label class='overlay-label'>" + layer.title + "</label><br>")
+
+    document.querySelector("#overlay-container").insertAdjacentHTML("beforeend","<div id='svi-leg'><div id='svi-leg-block-container'><b class='svi-leg-block' style='background:rgba(255,255,255,0.8)'></b><b class='svi-leg-block' style='background:rgba(217,217,217,0.8)'></b><b class='svi-leg-block' style='background:rgba(140,140,140,0.8)'></b><b class='svi-leg-block' style='background:rgba(51,51,51,0.7)'></b></div><div id='svi-leg-block-label'><p>Low <-----------------> High</p></div></div>")
+
+    document.querySelector("#svi").addEventListener("click",function(event){
+        addSvi();
+    })
+})
+
+function addSvi(){
+    if (compare == true){
+        if (document.querySelector("#svi").checked){
+            svi_blocks.visible = true;
+
+            swipe.leadingLayers.push(svi_blocks)
+            swipe.trailingLayers.push(svi_blocks)
+
+            document.querySelector("#svi-leg").style.display = "block";
         }
         else{
-            //set visibility of selected layer based on 
-            addOverlay();
-    
+            svi_blocks.visible = false;
+            svi_blocks.visible = false;
+
+            document.querySelector("#svi-leg").style.display = "none";
         }
+    }
+    else{
+        if (document.querySelector("#svi").checked){
+            svi_blocks.visible = true;
 
-    })
-})*/
-
-/////PRINT FUNCTION/////
-    /*const print = new Print({
-        view: view,
-        // specify your own print service
-        printServiceUrl:
-            "https://utility.arcgisonline.com/arcgis/rest/services/Utilities/PrintingTools/GPServer/Export%20Web%20Map%20Task"
-    });
-
-    view.ui.add(print, {
-        position: "top-right"
-    });*/
-
-//////DEPTH QUERY////////
-  
-    
-    //map event
-    /*view.on("click", (event) => {
-        if (one_hundred_year_high.visible === true) {
-            map.add(depth_hundred_year_high)
-        } else {
-            map.remove(depth_hundred_year_high)
+            document.querySelector("#svi-leg").style.display = "block";
         }
-    })*/
+        else{
+            svi_blocks.visible = false;
+            document.querySelector("#svi-leg").style.display = "none";
+        }
+    }
+}
+
 /////RESPONSIVE DESIGN
     function resize(){
         let w = document.querySelector("body").clientWidth;
@@ -894,5 +980,15 @@ hazusLayersHigh.forEach(function(layer,i){
     window.addEventListener('resize', resize);
     document.addEventListener('DOMContentLoaded',resize)
     resize();
+
+    //modal 
+    document.querySelector("#about-button").addEventListener("click",function(elem){
+        document.querySelector("#about-modal").style.display = "block";
+    })
+    document.querySelectorAll(".close-modal").forEach(function(elem){
+        elem.addEventListener("click",function(elem){
+            document.querySelector("#about-modal").style.display = "none";
+        })
+    })
 
 });
