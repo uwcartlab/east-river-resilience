@@ -282,7 +282,7 @@ hr{
     cursor: pointer;
   } 
 
-  #close-button{
+  #close-button, #about-button{
     background:none;
     border: 2px #1b666b solid;
     color:#1b666b;
@@ -291,7 +291,7 @@ hr{
     padding:5px;
     margin:auto;
   }
-  #close-button:hover{
+  #close-button:hover,  #about-button:hover{
     cursor: pointer;
     background: #cfcaaf;
   }

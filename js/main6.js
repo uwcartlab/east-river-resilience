@@ -543,7 +543,7 @@ const sviStyle = {
     //Set up the basemap
     const map = new Map({
         basemap: "arcgis-topographic",
-        layers: overlays.concat(polyLayersHigh).concat(lineLayersHigh).concat(depthLayersHigh).concat(lineLayersLow).concat(polyLayersLow).concat(depthLayersLow).concat(hazusLayersLow).concat(hazusLayersHigh)
+        layers: overlays.concat(polyLayersHigh).concat(lineLayersHigh).concat(depthLayersHigh).concat(lineLayersLow).concat(polyLayersLow).concat(depthLayersLow).concat([HAZUS_five_hundred_year_low, HAZUS_one_hundred_year_low, HAZUS_ten_year_low, HAZUS_one_year_low]).concat([HAZUS_five_hundred_year_high, HAZUS_one_hundred_year_high, HAZUS_ten_year_high, HAZUS_one_year_high])
     });
 
     //Set up the Map View
