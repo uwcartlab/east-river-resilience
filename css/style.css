@@ -295,6 +295,20 @@ hr{
     cursor: pointer;
     background: #cfcaaf;
   }
+/*info question marks*/
+.info-q:hover{
+    cursor:pointer;
+}
+.info-hover{
+    background:white;
+    padding:10px;
+    position:absolute;
+    z-index:10000;
+    width:250px;
+}
+.info-hover:hover{
+    cursor:pointer;
+}
 /*Responsive design*/
 @media screen and (min-width: 539px){
     #infoPanel{

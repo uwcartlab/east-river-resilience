@@ -82,7 +82,7 @@ require([
             outline: {
                 style: "solid",
                 width: "1",
-                color: [2, 62, 72, 0.5]
+                color: [0, 0, 0, 0.5]
             }
         }
     }
@@ -251,6 +251,14 @@ const sviStyle = {
       `
 };
 /////MAP LAYERS//////////
+    //EAST RIVER OUTLINE
+    let east_river_outline = new FeatureLayer({
+        url: "https://services.arcgis.com/HRPe58bUyBqyyiCt/arcgis/rest/services/east_river_boundary/FeatureServer/0",
+        title: "East River Outline",
+        visible: true,
+        renderer: lineStyle,
+        opacity: 0.6
+    });
     //DEPTH RASTERS
     //high lake levels
     let one_year_high_depth = new ImageryTileLayer({
@@ -543,7 +551,7 @@ const sviStyle = {
     //Set up the basemap
     const map = new Map({
         basemap: "arcgis-topographic",
-        layers: overlays.concat(polyLayersHigh).concat(lineLayersHigh).concat(depthLayersHigh).concat(lineLayersLow).concat(polyLayersLow).concat(depthLayersLow).concat([HAZUS_five_hundred_year_low, HAZUS_one_hundred_year_low, HAZUS_ten_year_low, HAZUS_one_year_low]).concat([HAZUS_five_hundred_year_high, HAZUS_one_hundred_year_high, HAZUS_ten_year_high, HAZUS_one_year_high])
+        layers: [east_river_outline].concat(overlays).concat(polyLayersHigh).concat(lineLayersHigh).concat(depthLayersHigh).concat(lineLayersLow).concat(polyLayersLow).concat(depthLayersLow).concat([HAZUS_five_hundred_year_low, HAZUS_one_hundred_year_low, HAZUS_ten_year_low, HAZUS_one_year_low]).concat([HAZUS_five_hundred_year_high, HAZUS_one_hundred_year_high, HAZUS_ten_year_high, HAZUS_one_year_high])
     });
 
     //Set up the Map View
@@ -552,11 +560,12 @@ const sviStyle = {
         map: map,
         extent: {
             xmin: -88.4407865369763,
-            ymin: 44.2519512604157,
+            ymin: 44.3019512604157,
             xmax: -87.57033074655209,
             ymax: 44.58559644055305,
             spatialReference: 4326
-        }
+        },
+        zoom:11
     });
 
 /////WIDGETS
@@ -916,7 +925,7 @@ hazusLayersHigh.forEach(function(layer,i){
 overlays.forEach(function(layer){
     document.querySelector("#overlay-container").insertAdjacentHTML("beforeend","<b id='svi-block' class='legend-block'></b><input id='svi' type='checkbox' name='flood-overlay' class='flood-overlay'></input><label class='overlay-label'>" + layer.title + "</label><br>")
 
-    document.querySelector("#overlay-container").insertAdjacentHTML("beforeend","<div id='svi-leg'><div id='svi-leg-block-container'><b class='svi-leg-block' style='background:rgba(255,255,255,0.8)'></b><b class='svi-leg-block' style='background:rgba(217,217,217,0.8)'></b><b class='svi-leg-block' style='background:rgba(140,140,140,0.8)'></b><b class='svi-leg-block' style='background:rgba(51,51,51,0.7)'></b></div><div id='svi-leg-block-label'><p>Low <-----------------> High</p></div></div>")
+    document.querySelector("#overlay-container").insertAdjacentHTML("beforeend","<div id='svi-leg'><div id='svi-leg-block-container'><b class='svi-leg-block' style='background:rgba(255,255,255,0.8)'></b><b class='svi-leg-block' style='background:rgba(217,217,217,0.8)'></b><b class='svi-leg-block' style='background:rgba(140,140,140,0.8)'></b><b class='svi-leg-block' style='background:rgba(51,51,51,0.7)'></b></div><div id='svi-leg-block-label'><p>Lowest <--------> Highest</p></div></div>")
 
     document.querySelector("#svi").addEventListener("click",function(event){
         addSvi();
@@ -988,6 +997,44 @@ function addSvi(){
     document.querySelectorAll(".close-modal").forEach(function(elem){
         elem.addEventListener("click",function(elem){
             document.querySelector("#about-modal").style.display = "none";
+        })
+    })
+/////LAYER INFORMATION
+    document.querySelectorAll(".info-q").forEach(function(elem){
+        let t = elem.attributes.getNamedItem("alt").value;
+        console.log(elem.attributes)
+        elem.addEventListener("click",function(e){
+            if (document.querySelector(".info-hover")){
+                document.querySelector(".info-hover").remove();
+            }
+            let panel = document.createElement("div")
+            panel.classList.add("info-hover")
+            panel.addEventListener("click",function(){
+                panel.remove();
+            })
+            panel.innerHTML = t;
+            panel.style.left = e.clientX/2;
+            panel.style.top = e.clientY;
+            document.querySelector("body").insertAdjacentElement("beforeend",panel)
+        })
+        elem.addEventListener("mouseover",function(e){
+            if (document.querySelector(".info-hover")){
+                document.querySelector(".info-hover").remove();
+            }
+            let panel = document.createElement("div")
+            panel.classList.add("info-hover")
+            panel.addEventListener("click",function(){
+                panel.remove();
+            })
+            panel.innerHTML = t;
+            panel.style.left = e.clientX/2;
+            panel.style.top = e.clientY;
+            document.querySelector("body").insertAdjacentElement("beforeend",panel)
+        })
+        elem.addEventListener("mouseleave",function(e){
+            if (document.querySelector(".info-hover")){
+                document.querySelector(".info-hover").remove();
+            }
         })
     })
 
