@@ -29,11 +29,11 @@ html, body{
 }
 #infoPanel{
     height:calc(100vh - 30px);
-    width:300px;
+    width:350px;
     overflow-y:scroll;
 }
 #infoPanel > *{
-    width:300px; 
+    width:350px; 
 }
 
 #viewDiv{
@@ -81,6 +81,7 @@ hr{
 /*Checkbox styling*/
 .flood-label, .overlay-label{
     font-size:20px;
+    font-weight:normal;
 }
 .legend-block{
     width: 20px;
@@ -243,7 +244,6 @@ hr{
     height: 100vh; /* Full height */
     overflow: auto; /* Enable scroll if needed */
     background-color: #e9e7da;
-    background-color: #e9e7da; /* Black w/ opacity */
   }
   
 /* Modal Content/Box */
@@ -290,6 +290,8 @@ hr{
     font-weight:bold;
     padding:5px;
     margin:auto;
+    display:block;
+    margin-bottom:25px;
   }
   #close-button:hover,  #about-button:hover{
     cursor: pointer;
@@ -315,8 +317,8 @@ hr{
         display:block;
     }
     #viewDiv{
-        width:calc(100% - 330px);
-        left:330px;
+        width:calc(100% - 380px);
+        left:380px;
     }
     #show-panel, #close{
         display:none;

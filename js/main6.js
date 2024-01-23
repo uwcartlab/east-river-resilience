@@ -264,6 +264,9 @@ const sviStyle = {
     let one_year_high_depth = new ImageryTileLayer({
         url: "https://tiledimageservices.arcgis.com/HRPe58bUyBqyyiCt/arcgis/rest/services/depth_1_year_high/ImageServer",
         title: "1-year Flood Depth",
+        customParameters: {
+            "display": "2.1” in 24 hrs. (1-yr. storm)"
+        },
         popupEnabled: true,
         popupTemplate: imagePopupTemplate,
         renderer:rasterRenderer,
@@ -274,6 +277,9 @@ const sviStyle = {
     let ten_year_high_depth = new ImageryTileLayer({
         url: "https://tiledimageservices.arcgis.com/HRPe58bUyBqyyiCt/arcgis/rest/services/depth_10_year_high/ImageServer",
         title: "10-year Flood Depth",
+        customParameters: {
+            "display": "3.4” in 24 hrs. (10-yr. storm)"
+        },
         popupEnabled: true,
         popupTemplate: imagePopupTemplate,
         renderer:rasterRenderer,
@@ -284,6 +290,9 @@ const sviStyle = {
     let one_hundred_year_high_depth = new ImageryTileLayer({
         url: "https://tiledimageservices.arcgis.com/HRPe58bUyBqyyiCt/arcgis/rest/services/depth_100_year_high/ImageServer",
         title: "100-year Flood Depth",
+        customParameters: {
+            "display": "5.4” in 24 hrs. (100-yr. storm)"
+        },
         popupEnabled: true,
         popupTemplate: imagePopupTemplate,
         renderer:rasterRenderer,
@@ -294,6 +303,9 @@ const sviStyle = {
     let five_hundred_year_high_depth = new ImageryTileLayer({
         url: "https://tiledimageservices.arcgis.com/HRPe58bUyBqyyiCt/arcgis/rest/services/depth_500_year_high/ImageServer",
         title: "500-year Flood Depth",
+        customParameters: {
+            "display": "7.2” in 24 hrs. (500-yr. storm)"
+        },
         popupEnabled: true,
         popupTemplate: imagePopupTemplate,
         renderer:rasterRenderer,
@@ -305,6 +317,9 @@ const sviStyle = {
     let one_year_low_depth = new ImageryTileLayer({
         url: "https://tiledimageservices.arcgis.com/HRPe58bUyBqyyiCt/arcgis/rest/services/depth_1_year_low/ImageServer",
         title: "1-year Flood Depth",
+        customParameters: {
+            "display": "2.1” in 24 hrs. (1-yr. storm)"
+        },
         popupEnabled: true,
         popupTemplate: imagePopupTemplate,
         renderer:rasterRenderer,
@@ -315,6 +330,9 @@ const sviStyle = {
     let ten_year_low_depth = new ImageryTileLayer({
         url: "https://tiledimageservices.arcgis.com/HRPe58bUyBqyyiCt/arcgis/rest/services/depth_10_year_low/ImageServer",
         title: "10-year Flood Depth",
+        customParameters: {
+            "display": "3.4” in 24 hrs. (10-yr. storm)"
+        },
         popupEnabled: true,
         popupTemplate: imagePopupTemplate,
         renderer:rasterRenderer,
@@ -325,6 +343,9 @@ const sviStyle = {
     let one_hundred_year_low_depth = new ImageryTileLayer({
         url: "https://tiledimageservices.arcgis.com/HRPe58bUyBqyyiCt/arcgis/rest/services/depth_100_year_low/ImageServer",
         title: "100-year Flood Depth",
+        customParameters: {
+            "display": "5.4” in 24 hrs. (100-yr. storm)"
+        },
         popupEnabled: true,
         popupTemplate: imagePopupTemplate,
         renderer:rasterRenderer,
@@ -335,6 +356,9 @@ const sviStyle = {
     let five_hundred_year_low_depth = new ImageryTileLayer({
         url: "https://tiledimageservices.arcgis.com/HRPe58bUyBqyyiCt/arcgis/rest/services/depth_500_year_low/ImageServer",
         title: "500-year Flood Depth",
+        customParameters: {
+            "display": "7.2” in 24 hrs. (500-yr. storm)"
+        },
         popupEnabled: true,
         popupTemplate: imagePopupTemplate,
         renderer:rasterRenderer,
@@ -346,7 +370,10 @@ const sviStyle = {
     //high Lake level
     let one_year_high = new FeatureLayer({
         url: "https://services.arcgis.com/HRPe58bUyBqyyiCt/arcgis/rest/services/1_year_high_lake_level/FeatureServer/13",
-        title: "1-year Flood Extent",
+        title: '1-year Flood Extent',
+        customParameters: {
+            "display": "2.1” in 24 hrs. (1-yr. storm)"
+        },
         visible: false,
         renderer: polygonStyle,
         blendMode:"multiply",
@@ -355,6 +382,9 @@ const sviStyle = {
     let ten_year_high = new FeatureLayer({
         url: "https://services.arcgis.com/HRPe58bUyBqyyiCt/arcgis/rest/services/Map1/FeatureServer/0",
         title: "10-year Flood Extent",
+        customParameters: {
+            "display": "3.4” in 24 hrs. (10-yr. storm)"
+        },
         visible: false,
         renderer: polygonStyle2,
         blendMode:"multiply",
@@ -363,6 +393,9 @@ const sviStyle = {
     let one_hundred_year_high = new FeatureLayer({
         url: "https://services.arcgis.com/HRPe58bUyBqyyiCt/arcgis/rest/services/100_year_high_lake_level/FeatureServer/0",
         title: "100-year Flood Extent",
+        customParameters: {
+            "display": "5.4” in 24 hrs. (100-yr. storm)"
+        },
         visible: false,
         renderer: polygonStyle3,
         blendMode:"multiply",
@@ -371,6 +404,9 @@ const sviStyle = {
     let five_hundred_year_high = new FeatureLayer({
         url: "https://services.arcgis.com/HRPe58bUyBqyyiCt/arcgis/rest/services/500_year_high_lake_level/FeatureServer/0",
         title: "500-year Flood Extent",
+        customParameters: {
+            "display": "7.2” in 24 hrs. (500-yr. storm)"
+        },
         visible: false,
         renderer: polygonStyle4,
         blendMode:"multiply",
@@ -381,6 +417,9 @@ const sviStyle = {
     let one_year_low = new FeatureLayer({
         url: "https://services.arcgis.com/HRPe58bUyBqyyiCt/arcgis/rest/services/1_year_low_lake_level/FeatureServer/0",
         title: "1-year Flood Extent",
+        customParameters: {
+            "display": "2.1” in 24 hrs. (1-yr. storm)"
+        },
         visible: false,
         renderer: polygonStyle,
         blendMode:"multiply",
@@ -389,6 +428,9 @@ const sviStyle = {
     let ten_year_low = new FeatureLayer({
         url: "https://services.arcgis.com/HRPe58bUyBqyyiCt/arcgis/rest/services/10_year_low/FeatureServer/0",
         title: "10-year Flood Extent",
+        customParameters: {
+            "display": "3.4” in 24 hrs. (10-yr. storm)"
+        },
         visible: false,
         renderer: polygonStyle2,
         blendMode:"multiply",
@@ -397,6 +439,9 @@ const sviStyle = {
     let one_hundred_year_low = new FeatureLayer({
         url: "https://services.arcgis.com/HRPe58bUyBqyyiCt/arcgis/rest/services/100_year_lake_level_low/FeatureServer/0",
         title: "100-year Flood Extent",
+        customParameters: {
+            "display": "5.4” in 24 hrs. (100-yr. storm)"
+        },
         visible: false,
         renderer: polygonStyle3,
         blendMode:"multiply",
@@ -405,6 +450,9 @@ const sviStyle = {
     let five_hundred_year_low = new FeatureLayer({
         url: "https://services.arcgis.com/HRPe58bUyBqyyiCt/arcgis/rest/services/500_year_low/FeatureServer/0",
         title: "500-year Flood Extent",
+        customParameters: {
+            "display": "7.2” in 24 hrs. (500-yr. storm)"
+        },
         visible: false,
         renderer: polygonStyle4,
         blendMode:"multiply",
@@ -475,6 +523,9 @@ const sviStyle = {
     let HAZUS_one_year_high = new FeatureLayer({
         url: "https://services.arcgis.com/HRPe58bUyBqyyiCt/arcgis/rest/services/HAZUS_1Year_High/FeatureServer/0",
         title: "1-year HAZUS",
+        customParameters: {
+            "display": "Impacted Buildings, 2.1”"
+        },
         visible: false,
         blendMode:"darken",
         renderer:pointStyle
@@ -482,6 +533,9 @@ const sviStyle = {
     let HAZUS_ten_year_high = new FeatureLayer({
         url: "https://services.arcgis.com/HRPe58bUyBqyyiCt/arcgis/rest/services/HAZUS_10Year_High/FeatureServer/0",
         title: "10-year HAZUS",
+        customParameters: {
+            "display": "Impacted Buildings, 3.4”"
+        },
         visible: false,
         blendMode:"darken",
         renderer:pointStyle2
@@ -489,6 +543,9 @@ const sviStyle = {
     let HAZUS_one_hundred_year_high = new FeatureLayer({
         url: "https://services.arcgis.com/HRPe58bUyBqyyiCt/arcgis/rest/services/HAZUS_100Year_High/FeatureServer/0",
         title: "100-year HAZUS",
+        customParameters: {
+            "display": "Impacted Buildings, 5.4”"
+        },
         visible: false,
         blendMode:"darken",
         renderer:pointStyle3
@@ -496,6 +553,9 @@ const sviStyle = {
     let HAZUS_five_hundred_year_high = new FeatureLayer({
         url: "https://services.arcgis.com/HRPe58bUyBqyyiCt/arcgis/rest/services/HAZUS_500Year_High/FeatureServer/0",
         title: "500-year HAZUS",
+        customParameters: {
+            "display": "Impacted Buildings, 7.2”"
+        },
         visible: false,
         blendMode:"darken",
         renderer:pointStyle4
@@ -504,24 +564,36 @@ const sviStyle = {
     let HAZUS_one_year_low = new FeatureLayer({
         url: "https://services.arcgis.com/HRPe58bUyBqyyiCt/arcgis/rest/services/HAZUS_1Year_Low/FeatureServer/0",
         title: "1-year HAZUS",
+        customParameters: {
+            "display": "Impacted Buildings, 2.1”"
+        },
         visible: false,
         renderer:pointStyle
     });
     let HAZUS_ten_year_low = new FeatureLayer({
         url: "https://services.arcgis.com/HRPe58bUyBqyyiCt/arcgis/rest/services/HAZUS_10Year_Low/FeatureServer/0",
         title: "10-year HAZUS",
+        customParameters: {
+            "display": "Impacted Buildings, 3.4”"
+        },
         visible: false,
         renderer:pointStyle2
     });
     let HAZUS_one_hundred_year_low = new FeatureLayer({
         url: "https://services.arcgis.com/HRPe58bUyBqyyiCt/arcgis/rest/services/HAZUS_100Year_Low/FeatureServer/0",
         title: "100-year HAZUS",
+        customParameters: {
+            "display": "Impacted Buildings, 5.4”"
+        },
         visible: false,
         renderer:pointStyle3
     });
     let HAZUS_five_hundred_year_low = new FeatureLayer({
         url: "https://services.arcgis.com/HRPe58bUyBqyyiCt/arcgis/rest/services/HAZUS_500Year_Low/FeatureServer/0",
         title: "500-year HAZUS",
+        customParameters: {
+            "display": "Impacted Buildings, 7.2”"
+        },
         visible: false,
         renderer:pointStyle4
     });
@@ -529,6 +601,9 @@ const sviStyle = {
     let svi_blocks = new FeatureLayer({
         url: "https://services.arcgis.com/HRPe58bUyBqyyiCt/arcgis/rest/services/EastRiver_SoVI/FeatureServer/0",
         title: "Social Vulnerability",
+        customParameters: {
+            "display": "Social Vulnerability"
+        },
         visible: false,
         renderer:sviStyle
     });
@@ -837,7 +912,7 @@ function selectLayer(highLayers, lowLayers){
 //////Depth Layer list/////
 depthLayersHigh.forEach(function(layer, i){
     //create radio buttons
-    document.querySelector("#flood-depth-container").insertAdjacentHTML("beforeend","<input id='f" + layer.title.replace(/\s/g, "") + "' type='radio' name='flood-layer' class='depth-layer'></input><label class='flood-label'>" + layer.title + "</label><br>")
+    document.querySelector("#flood-depth-container").insertAdjacentHTML("beforeend","<input id='f" + layer.title.replace(/\s/g, "") + "' type='radio' name='flood-layer' class='depth-layer'></input><label class='flood-label'>" + layer.customParameters.display + "</label><br>")
     document.querySelector("#f" + layer.title.replace(/\s/g, "")).addEventListener("click",function(){
         currentLayer = i;
         //hide all lake level layers
@@ -852,7 +927,7 @@ depthLayersHigh.forEach(function(layer, i){
 //////Extent Layer list/////
 polyLayersHigh.forEach(function(layer, i){
     //create radio buttons
-    document.querySelector("#flood-extent-container").insertAdjacentHTML("beforeend","<b id='leg-" + i + "' class='legend-block'></b><input id='f" + layer.title.replace(/\s/g, "") + "' type='checkbox' name='flood-layer' class='extent-layer'></input><label class='flood-label'>" + layer.title + "</label><br>")
+    document.querySelector("#flood-extent-container").insertAdjacentHTML("beforeend","<b id='leg-" + i + "' class='legend-block'></b><input id='f" + layer.title.replace(/\s/g, "") + "' type='checkbox' name='flood-layer' class='extent-layer'></input><label class='flood-label'>" + layer.customParameters.display + "</label><br>")
     document.querySelector("#f" + layer.title.replace(/\s/g, "")).addEventListener("click",function(event){
         if (event.target.checked){
             currentLayer = i;
@@ -899,7 +974,7 @@ function addOverlay(){
 }
 
 hazusLayersHigh.forEach(function(layer,i){
-    document.querySelector("#overlay-container").insertAdjacentHTML("beforeend","<b id='ovr-" + i + "' class='legend-block'></b><input id='f" + layer.title.replace(/\s/g, "") + "' type='checkbox' name='flood-overlay' class='flood-overlay'></input><label class='overlay-label'>" + layer.title + "</label><br>")
+    document.querySelector("#overlay-container").insertAdjacentHTML("beforeend","<b id='ovr-" + i + "' class='legend-block'></b><input id='f" + layer.title.replace(/\s/g, "") + "' type='checkbox' name='flood-overlay' class='flood-overlay'></input><label class='overlay-label'>" + layer.customParameters.display + "</label><br>")
     document.querySelector("#f" + layer.title.replace(/\s/g, "")).addEventListener("click",function(event){
         if (compare == true){
             if (event.target.checked){
@@ -923,7 +998,7 @@ hazusLayersHigh.forEach(function(layer,i){
 })
 
 overlays.forEach(function(layer){
-    document.querySelector("#overlay-container").insertAdjacentHTML("beforeend","<b id='svi-block' class='legend-block'></b><input id='svi' type='checkbox' name='flood-overlay' class='flood-overlay'></input><label class='overlay-label'>" + layer.title + "</label><br>")
+    document.querySelector("#overlay-container").insertAdjacentHTML("beforeend","<b id='svi-block' class='legend-block'></b><input id='svi' type='checkbox' name='flood-overlay' class='flood-overlay'></input><label class='overlay-label'>" + layer.customParameters.display + "</label><br>")
 
     document.querySelector("#overlay-container").insertAdjacentHTML("beforeend","<div id='svi-leg'><div id='svi-leg-block-container'><b class='svi-leg-block' style='background:rgba(255,255,255,0.8)'></b><b class='svi-leg-block' style='background:rgba(217,217,217,0.8)'></b><b class='svi-leg-block' style='background:rgba(140,140,140,0.8)'></b><b class='svi-leg-block' style='background:rgba(51,51,51,0.7)'></b></div><div id='svi-leg-block-label'><p>Lowest <--------> Highest</p></div></div>")
 

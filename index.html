@@ -22,23 +22,32 @@
             <div class="modal-content">
                 <span id="x" class="close-modal">&times;</span>
                 <img src="assets/logo.png">
-                <p>Welcome to the interactive East River watershed flood map presented by the East River Collaborative. This tool allows you to view and compare different East River flooding scenarios within the watershed with the purpose of understanding how flooding interacts with the landscape, what infrastructure may be impacted and which populations are at risk. The intended audience includes municipal staff, decision makers, emergency practitioners, leaders, managers, and interested community members. </p>
-                <p><b>About this map:</b> The East River flows north from Calumet County for over 40 miles through Brown County and 13 municipalities before entering the Fox River which empties into the Bay of Green Bay, Lake Michigan. This map was created from an East River flood modeling study led by the University of Wisconsin-Madison Department of Civil and Environmental Engineering. Stream gauges were placed along the East River and its tributaries in 2020 and 2021 to collect hydrologic and hydraulic data. This map shows the scale of potential flooding at various precipitation and lake level scenarios informed by the river data and 2010 Brown County LiDAR. </p>
-                <h2 class="selection">How to Use</h2>
+                <p>Welcome to the East River Collaborative interactive flood map. This tool allows you to view and compare the impacts of different flooding scenarios in the East River watershed. </p>
+                </br>
+                <h2 class="selection modal-desc" style="color:red">Disclaimer: </h2>
+                <p class="modal-desc" style="color:red"><b>Due to a lack of calibration data, this map should be used strictly as a planning reference tool and not for navigation, permitting, or other legal purposes.</b></p>
+                </br></br>
+                <p><b>Background:</b> The East River flows north from Calumet County for over 40 miles through Brown County and 13 municipalities before entering the Fox River, which empties into the Bay of Green Bay on Lake Michigan. This map shows the scale of potential flooding at various precipitation and Lake Michigan water level scenarios based on data from an East River flood modeling study led by the University of Wisconsin-Madison Department of Civil and Environmental Engineering. Stream gauges were placed along the East River and its tributaries in 2020 and 2021 to collect hydrologic and hydraulic data. Flood scenarios were analyzed using the <i>HEC-HMS</i> and one-dimensional <i>HEC-RAS</i> models and informed by the river flow data and 2010 Brown County LiDAR.</p>
+                </br></br>
+                <p><b>How to Use this Map</b></p>
+                </br></br>
                 <h2 class="selection modal-desc">Select a Display: </h2>
-                <p class="modal-desc">Select how you want the flood to be displayed. <b>Extent</b> displays the inundation area of the flood event, while <b>Depth</b> displays how deep the flooding is.</p>
+                <p class="modal-desc"><b>Extent</b> displays the inundation area of the flood event while <b>Depth</b> displays the flood depth in feet.</p>
                 </br></br>
                 <h2 class="selection modal-desc">Select a Lake Level: </h2>
-                <p class="modal-desc">The extent and depth of flooding depends on Lake Michigan water levels. <b>High</b> shows flooding based on high water levels (583.8 ft), <b>Low</b> shows flooding based on low water levels (575.7 ft).</p>
+                <p class="modal-desc">The extent and depth of flooding depends in part on Lake Michigan water levels. <b>High</b> shows flooding based on high water levels (583.8 ft IGLD 85); <b>Low</b> shows flooding based on low water levels (575.7 ft IGLD 85). <b>Compare</b> enables a swipe tool to compare flooding between the high and low lake levels. These two water levels are the record high and low daily average levels at the <i>Green Bay NOAA CO-OPS water level station 9087079.</i></p>
                 </br></br>
-                <h2 class="selection modal-desc">Select a Flood Level</h2>
-                <p class="modal-desc">Select one or more flooding scenarios. Scenarios are ranked in order of how likely the event is to occur. The 1-year flood (2.1 inches in 24 hours) has a 99.9% chance of occurrence once a year. The 10-year flood (3.4 inches in 24 hours) has a 10% annual chance occurrence. The 100-year flood (5.4 inches in 24 hours) has a 1% annual chance occurrence. Finally, the 500-year flood (7.2 inches in 24 hours) has a 0.2% annual chance occurrence.</p>
+                <h2 class="selection modal-desc">Select Rainfall Amount:</h2>
+                <p class="modal-desc">Select one or more rainfall amounts to display the flooding that results from that rainfall and the chosen lake level. <b>2.1” in 24 hours</b> has a 99.9% chance of occurrence at least once per year (1-year storm). <b>3.4” in 24 hours</b> has a 10% annual chance occurrence (10-year storm). <b>5.4” in 24 hours</b> has a 1% annual chance occurrence (100-year storm). <b>7.2” in 24 hours</b> has a 0.2% annual chance occurrence (500-year storm). Rainfall statistics are based on <i>NOAA Atlas 14</i>.</p>
                 </br></br>
-                <h2 class="selection modal-desc">Add Overlays</h2>
-                <p class="modal-desc">You are also able to add some supplementary data to the map. The HAZUS dataset shows which buildings will be affected by various flooding scenarios. The Social Vulnerability Index (SVI) depicts the level of vulnerability characteristics census block groups have within the region.</p>
+                <h2 class="selection modal-desc">Add Overlays: </h2>
+                <p class="modal-desc">You are also able to add supplementary data to the map.</p>
                 </br></br>
-                <h2 class="selection modal-desc" style="color:red">Disclaimer</h2>
-                <p class="modal-desc" style="color:red"><b>Due to a lack of calibration data, this map should be used strictly as a planning reference tool and not for navigation, permitting, or other legal purposes.</b></p>
+                <p class="modal-desc">The <b> Impacted Buildings</b> datasets show which buildings may be damaged during a flood. The Impacted Buildings layers were developed by the UW-Madison Space Science and Engineering Center using <i>FEMA’s Hazus software</i>.</p>
+                </br></br>
+                <p class="modal-desc">The <b>Social Vulnerability Index</b> (SVI) indicates the areas which may need the most support to cope with the effects of flooding due to the social, economic, and demographic characteristics of the area. Wisconsin Sea Grant created this SVI following methodology of the <i>Center for Disease Control</i> and the <i>University of South Carolina’s Hazards and Vulnerability Research Institute</i>. The SVI is computed at the census block group level using data from the U.S. Census and the Wisconsin Statewide Parcel Map.</p>
+                </br></br>
+                <i>Funding for the development of this mapping tool was provided by the National Oceanic and Atmospheric Administration Sea Grant Support and the Fund for Lake Michigan. Data used in the mapping tool was created with additional funding from the Wisconsin Coastal Management Program and the National Oceanic and Atmospheric Administration Office of Coastal Management. Map composed by the UW-Madison Cartography Lab, and in collaboration with UW Sea Grant, © 2023.</i>
                 </br></br>
                 <button id="close-button" class="close-modal">Close</button>
             </div>
@@ -49,24 +58,25 @@
             <hr>
             <button id="about-button">About</button>
             <div id="data-type-container">
-                <h2 class="selection">Select Flood Display<sup class="info-q" id="display-info" alt="Select how you want the flood to be displayed. Extent displays the inundation area of the flood event, while Depth displays how deep the flooding is.">?</sup></h2>
+                <h2 class="selection">Select Flood Display<sup class="info-q" id="display-info" alt="Extent displays the inundation area of the flood event while Depth displays the flood depth in feet.">?</sup></h2>
                 <button class="data-type" id="extent" style="background:rgba(255,255,255,0.6)">Extent</button>
                 <button class="data-type" id="depth">Depth</button>
             </div>
             <div id="lake-level-container">
-                <h2 class="selection">Select Lake Level<sup class="info-q" id="lake-info" alt="The extent and depth of flooding depends on Lake Michigan water levels. High shows flooding based on high water levels (583.8 ft), Low shows flooding based on low water levels (575.7 ft).">?</sup></h2>
+                <h2 class="selection">Select Lake Level<sup class="info-q" id="lake-info" alt="The extent and depth of flooding depends in part on Lake Michigan water levels. High shows flooding based on high water levels (583.8 ft IGLD 85); Low shows flooding based on low water levels (575.7 ft IGLD 85). Compare enables a swipe tool to compare flooding between the high and low lake levels.">?</sup></h2>
                 <button id="lake-level-low">Low</button>
                 <button id="lake-level-high" style="background:rgba(255,255,255,0.6)">High</button>
                 <button id="lake-level-compare">Compare</button>
             </div>
             <div class="flood-container" id="flood-extent-container">
-                <h2 class="selection">Select Flood Level<sup class="info-q" id="level-info" alt="Select one or more flooding scenarios. Scenarios are ranked in order of how likely the event is to occur">?</sup></h2>
+                <h2 class="selection">Select Rainfall Amount<sup class="info-q" id="level-info" alt="Select one or more rainfall amounts to display the flooding that results from that rainfall and the chosen lake level.">?</sup></h2>
             </div>
             <div class="flood-container" id="flood-depth-container" style="display:none">
-                <h2 class="selection">Select Flood Level<sup class="info-q" id="level-info" alt="Select one or more flooding scenarios. Scenarios are ranked in order of how likely the event is to occur">?</sup></h2>
+                <h2 class="selection">Select Rainfall Amount<sup class="info-q" id="level-info" alt="Select one or more rainfall amounts to display the flooding that results from that rainfall and the chosen lake level.">?</sup></h2>
             </div>
             <div id="overlay-container">
-                <h2 class="selection">Add overlays<sup class="info-q" id="overlay-info" alt="Add supplementary data to the map. The HAZUS dataset shows which buildings will be affected by various flooding scenarios. The Social Vulnerability Index (SVI) depicts the level of vulnerability characteristics census block groups have within the region.">?</sup></h2>
+                <h2 class="selection">Add overlays<sup class="info-q" id="overlay-info" alt="The Impacted Buildings datasets show which buildings may be damaged during a flood. 
+                    The Social Vulnerability Index (SVI) indicates the areas which may need the most support to cope with the effects of flooding due to the social, economic, and demographic characteristics of the area.">?</sup></h2>
             </div>
             <div id="infoText">
                 <!--
