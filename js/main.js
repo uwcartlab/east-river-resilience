@@ -21,7 +21,8 @@ require([
         type = "extent",
         lakeLevel = "high",
         currentLayer = 0,
-        swipe;
+        swipe,
+        infrastructureLayer = false;
 
 //////LAYER RENDERERS///////
     //polygon style
@@ -607,6 +608,96 @@ const sviStyle = {
         visible: false,
         renderer:sviStyle
     });
+    //infrastructure points
+    let substations = new FeatureLayer({
+        url: "https://services.arcgis.com/HRPe58bUyBqyyiCt/arcgis/rest/services/Infrastructure_Points/FeatureServer/13",
+        title: "Substation",
+        customParameters: {
+            "color": "#E89E23"
+        },
+        visible: false
+    });
+    let child_care = new FeatureLayer({
+        url: "https://services.arcgis.com/HRPe58bUyBqyyiCt/arcgis/rest/services/Infrastructure_Points/FeatureServer/12",
+        title: "Child Care",
+        customParameters: {
+            "color": "#BF4C9C"
+        },
+        visible: false
+    });
+    let wastewater = new FeatureLayer({
+        url: "https://services.arcgis.com/HRPe58bUyBqyyiCt/arcgis/rest/services/Infrastructure_Points/FeatureServer/11",
+        title: "Wastewater",
+        customParameters: {
+            "color": "#39C2F1"
+        },
+        visible: false
+    });
+    let schools = new FeatureLayer({
+        url: "https://services.arcgis.com/HRPe58bUyBqyyiCt/arcgis/rest/services/Infrastructure_Points/FeatureServer/1",
+        title: "Schools",
+        customParameters: {
+            "color": "#7F4099"
+        },
+        visible: false
+    });
+    let fire_stations = new FeatureLayer({
+        url: "https://services.arcgis.com/HRPe58bUyBqyyiCt/arcgis/rest/services/Infrastructure_Points/FeatureServer/2",
+        title: "Fire Station",
+        customParameters: {
+            "color": "#EF3925"
+        },
+        visible: false
+    });
+    let hospitals = new FeatureLayer({
+        url: "https://services.arcgis.com/HRPe58bUyBqyyiCt/arcgis/rest/services/Infrastructure_Points/FeatureServer/3",
+        title: "Hospital",
+        customParameters: {
+            "color": "#C83626"
+        },
+        visible: false
+    });
+    let shelters = new FeatureLayer({
+        url: "https://services.arcgis.com/HRPe58bUyBqyyiCt/arcgis/rest/services/Infrastructure_Points/FeatureServer/4",
+        title: "Emerg. Shelter",
+        customParameters: {
+            "color": "#75C26E"
+        },
+        visible: false
+    });
+    let nursing_homes = new FeatureLayer({
+        url: "https://services.arcgis.com/HRPe58bUyBqyyiCt/arcgis/rest/services/Infrastructure_Points/FeatureServer/5",
+        title: "Nursing Home",
+        customParameters: {
+            "color": "#119DCE"
+        },
+        visible: false
+    });
+    let police = new FeatureLayer({
+        url: "https://services.arcgis.com/HRPe58bUyBqyyiCt/arcgis/rest/services/Infrastructure_Points/FeatureServer/6",
+        title: "Police",
+        customParameters: {
+            "color": "#0E7AC0"
+        },
+        visible: false
+    });
+    let sirens = new FeatureLayer({
+        url: "https://services.arcgis.com/HRPe58bUyBqyyiCt/arcgis/rest/services/Infrastructure_Points/FeatureServer/7",
+        title: "Emerg. Siren",
+        customParameters: {
+            "color": "#58595C"
+        },
+        visible: false
+    });
+    let epcra = new FeatureLayer({
+        url: "https://services.arcgis.com/HRPe58bUyBqyyiCt/arcgis/rest/services/Infrastructure_Points/FeatureServer/6",
+        title: "Haz. Chemicals",
+        customParameters: {
+            "color": "#333333"
+        },
+        visible: false
+    });
+
 ///change order of features
     //raster/polygon/line layer groups
     let lineLayersHigh = [one_year_high_trailing, ten_year_high_trailing, one_hundred_year_high_trailing, five_hundred_year_high_trailing],
@@ -617,7 +708,8 @@ const sviStyle = {
         depthLayersLow = [one_year_low_depth, ten_year_low_depth, one_hundred_year_low_depth, five_hundred_year_low_depth],
         hazusLayersHigh = [HAZUS_one_year_high, HAZUS_ten_year_high, HAZUS_one_hundred_year_high, HAZUS_five_hundred_year_high],
         hazusLayersLow = [HAZUS_one_year_low, HAZUS_ten_year_low, HAZUS_one_hundred_year_low, HAZUS_five_hundred_year_low],
-        overlays = [svi_blocks];
+        overlays = [svi_blocks],
+        infrastructure = [substations, child_care, wastewater,schools,fire_stations,hospitals,shelters,nursing_homes,police,sirens,epcra]
         
     //set default line layer group based on lake depth
     let lineLayers = lineLayersHigh;
@@ -626,7 +718,7 @@ const sviStyle = {
     //Set up the basemap
     const map = new Map({
         basemap: "arcgis-topographic",
-        layers: [east_river_outline].concat(overlays).concat(hazusLayersHigh).concat(hazusLayersLow).concat(polyLayersHigh).concat(lineLayersHigh).concat(depthLayersHigh).concat(lineLayersLow).concat(polyLayersLow).concat(depthLayersLow)
+        layers: [east_river_outline].concat(overlays).concat(hazusLayersHigh).concat(hazusLayersLow).concat(polyLayersHigh).concat(lineLayersHigh).concat(depthLayersHigh).concat(lineLayersLow).concat(polyLayersLow).concat(depthLayersLow).concat(infrastructure)
     });
 
     //Set up the Map View
@@ -1007,6 +1099,23 @@ overlays.forEach(function(layer){
     })
 })
 
+//create infrastructure point overlay
+document.querySelector("#overlay-container").insertAdjacentHTML("beforeend","<b id='svi-block' class='legend-block'></b><input type='checkbox' name='infrastructure-overlay' class='infrastructure-overlay'></input><label class='overlay-label'>Infrastructure</label><br>")
+document.querySelector(".infrastructure-overlay").addEventListener("click",function(elem){
+    let status = infrastructureLayer == true ? false : true;
+    infrastructureLayer = status;
+
+    infrastructure.forEach(function(item){
+        item.visible = status;
+    })
+
+    if (infrastructureLayer == true)
+        document.querySelector("#infrastructureDiv").style.display = "block";
+    else    
+        document.querySelector("#infrastructureDiv").style.display = "none";
+
+})
+
 function addSvi(){
     if (compare == true){
         if (document.querySelector("#svi").checked){
@@ -1073,6 +1182,11 @@ function addSvi(){
         elem.addEventListener("click",function(elem){
             document.querySelector("#about-modal").style.display = "none";
         })
+    })
+/////CREATE INFRASTRUCTURE LEGEND
+    infrastructure.forEach(function(item){
+        document.querySelector("#infrastructureDiv").insertAdjacentHTML("beforeend","<b class='infrastructurePoint' style='background-color:" + item.customParameters.color + "'></b>")
+        document.querySelector("#infrastructureDiv").insertAdjacentHTML("beforeend","<p>" + item.title + "</p><br>")
     })
 /////LAYER INFORMATION
     document.querySelectorAll(".info-q").forEach(function(elem){
