@@ -90,6 +90,10 @@ hr{
     position:relative;
     margin-bottom:-5px;
 }
+.depth-2d-model{
+    margin-top:25px;
+    display:none;
+}
 #leg-0{
     background:rgba(15, 58, 62, 0.8);
 }

@@ -83,6 +83,19 @@ require([
             outline: {
                 style: "solid",
                 width: "1",
+                color: [0, 0, 0, 0.8]
+            }
+        }
+    }
+    //dashed line style
+    const dashLineStyle = {
+        type: "simple",
+        symbol: {
+            type: "simple-fill",
+            style: "none",
+            outline: {
+                style: "dash-dot",
+                width: "0.5",
                 color: [0, 0, 0, 0.5]
             }
         }
@@ -102,6 +115,7 @@ require([
             max: 10 
         }]
     }
+    
 /////POINT RENDERER//////
 const pointStyle = {
     type: "simple",
@@ -260,6 +274,14 @@ const sviStyle = {
         renderer: lineStyle,
         opacity: 0.6
     });
+    //municipal boundaries
+    let brown_county_municipal = new FeatureLayer({
+        url: "https://services.arcgis.com/HRPe58bUyBqyyiCt/arcgis/rest/services/Brown_County_Municipal_Boundaries/FeatureServer/0",
+        title: "Municipal Boundaries",
+        visible: true,
+        renderer: dashLineStyle,
+        opacity: 0.6
+    });
     //DEPTH RASTERS
     //high lake levels
     let one_year_high_depth = new ImageryTileLayer({
@@ -306,6 +328,20 @@ const sviStyle = {
         title: "500-year Flood Depth",
         customParameters: {
             "display": "7.2” in 24 hrs. (500-yr. storm)"
+        },
+        popupEnabled: true,
+        popupTemplate: imagePopupTemplate,
+        renderer:rasterRenderer,
+        visible:false,
+        listMode: "hide",
+        opacity: .5
+    });
+    //2D model
+    let one_hundred_year_high_depth_2d = new ImageryTileLayer({
+        url: "https://tiledimageservices.arcgis.com/HRPe58bUyBqyyiCt/arcgis/rest/services/east_river__2d/ImageServer",
+        title: "100-year Depth 2D Model",
+        customParameters: {
+            "display": "5.4” in 24 hrs. (2d Model)"
         },
         popupEnabled: true,
         popupTemplate: imagePopupTemplate,
@@ -485,6 +521,14 @@ const sviStyle = {
     let five_hundred_year_high_trailing = new FeatureLayer({
         url: "https://services.arcgis.com/HRPe58bUyBqyyiCt/arcgis/rest/services/500_year_high_lake_level/FeatureServer/0",
         title: "500-year flood line",
+        renderer: lineStyle,
+        listMode: "hide",
+        visible: false
+    });
+    //2d model level
+    let one_hundred_year_high_depth_2d_trailing = new FeatureLayer({
+        url: "https://services.arcgis.com/HRPe58bUyBqyyiCt/arcgis/rest/services/east_river_line/FeatureServer",
+        title: "100-year flood line 2d Model",
         renderer: lineStyle,
         listMode: "hide",
         visible: false
@@ -700,11 +744,11 @@ const sviStyle = {
 
 ///change order of features
     //raster/polygon/line layer groups
-    let lineLayersHigh = [one_year_high_trailing, ten_year_high_trailing, one_hundred_year_high_trailing, five_hundred_year_high_trailing],
+    let lineLayersHigh = [one_year_high_trailing, ten_year_high_trailing, one_hundred_year_high_trailing, five_hundred_year_high_trailing, one_hundred_year_high_depth_2d_trailing],
         lineLayersLow = [one_year_low_trailing, ten_year_low_trailing, one_hundred_year_low_trailing, five_hundred_year_low_trailing],
         polyLayersHigh = [one_year_high, ten_year_high, one_hundred_year_high, five_hundred_year_high],
         polyLayersLow = [one_year_low, ten_year_low, one_hundred_year_low, five_hundred_year_low],
-        depthLayersHigh = [one_year_high_depth, ten_year_high_depth, one_hundred_year_high_depth, five_hundred_year_high_depth],
+        depthLayersHigh = [one_year_high_depth, ten_year_high_depth, one_hundred_year_high_depth, five_hundred_year_high_depth, one_hundred_year_high_depth_2d],
         depthLayersLow = [one_year_low_depth, ten_year_low_depth, one_hundred_year_low_depth, five_hundred_year_low_depth],
         hazusLayersHigh = [HAZUS_one_year_high, HAZUS_ten_year_high, HAZUS_one_hundred_year_high, HAZUS_five_hundred_year_high],
         hazusLayersLow = [HAZUS_one_year_low, HAZUS_ten_year_low, HAZUS_one_hundred_year_low, HAZUS_five_hundred_year_low],
@@ -718,7 +762,7 @@ const sviStyle = {
     //Set up the basemap
     const map = new Map({
         basemap: "arcgis-topographic",
-        layers: [east_river_outline].concat(overlays).concat(hazusLayersHigh).concat(hazusLayersLow).concat(polyLayersHigh).concat(lineLayersHigh).concat(depthLayersHigh).concat(lineLayersLow).concat(polyLayersLow).concat(depthLayersLow).concat(infrastructure)
+        layers: [east_river_outline].concat(brown_county_municipal).concat(overlays).concat(hazusLayersHigh).concat(hazusLayersLow).concat(polyLayersHigh).concat(lineLayersHigh).concat(depthLayersHigh).concat(lineLayersLow).concat(polyLayersLow).concat(depthLayersLow).concat(infrastructure)
     });
 
     //Set up the Map View
@@ -885,6 +929,8 @@ function checkBoxes(){
 
             addLayers(depthLayersHigh,depthLayersLow)
             addLayers(lineLayersHigh, lineLayersLow)
+
+            add2dModel();
         }
         //add overlays
         addSvi();
@@ -919,6 +965,8 @@ function checkBoxes(){
             if (type == "depth"){
                 addLayers(depthLayersHigh,depthLayersLow)
                 selectLayer(lineLayersHigh, lineLayersLow)
+
+                add2dModel();
             }
             //add overlays
             addSvi();
@@ -941,6 +989,8 @@ function checkBoxes(){
     }
     //set the swipe conditions
     function setSwipe(highLayers, lowLayers){
+        add2dModel();
+        
         if (swipe)
             swipe.destroy();
         
@@ -1004,7 +1054,12 @@ function selectLayer(highLayers, lowLayers){
 //////Depth Layer list/////
 depthLayersHigh.forEach(function(layer, i){
     //create radio buttons
-    document.querySelector("#flood-depth-container").insertAdjacentHTML("beforeend","<input id='f" + layer.title.replace(/\s/g, "") + "' type='radio' name='flood-layer' class='depth-layer'></input><label class='flood-label'>" + layer.customParameters.display + "</label><br>")
+    //create button for the 2d model, hide initially
+    if (layer.title == "100-year Depth 2D Model")
+        document.querySelector("#flood-depth-container").insertAdjacentHTML("beforeend","<input id='f" + layer.title.replace(/\s/g, "") + "' type='radio' name='flood-layer' class='depth-layer depth-2d-model'></input><label class='flood-label depth-2d-model'>" + layer.customParameters.display + "</label>")
+    else
+        document.querySelector("#flood-depth-container").insertAdjacentHTML("beforeend","<input id='f" + layer.title.replace(/\s/g, "") + "' type='radio' name='flood-layer' class='depth-layer'></input><label class='flood-label'>" + layer.customParameters.display + "</label><br>")
+    
     document.querySelector("#f" + layer.title.replace(/\s/g, "")).addEventListener("click",function(){
         currentLayer = i;
         //hide all lake level layers
@@ -1016,6 +1071,18 @@ depthLayersHigh.forEach(function(layer, i){
         addSvi();
     })
 })
+//////2d Model Data///////
+function add2dModel(){
+    let display;
+    if (lakeLevel == 'high' && compare == false)
+        display = "inline-block"
+    else
+        display = "none"
+
+    document.querySelectorAll(".depth-2d-model").forEach(elem => {
+        elem.style.display = display;
+    })
+}
 //////Extent Layer list/////
 polyLayersHigh.forEach(function(layer, i){
     //create radio buttons
