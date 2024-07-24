@@ -653,93 +653,255 @@ const sviStyle = {
         renderer:sviStyle
     });
     //infrastructure points
+    /////INFRASTRUCTURE POINTS
     let substations = new FeatureLayer({
         url: "https://services.arcgis.com/HRPe58bUyBqyyiCt/arcgis/rest/services/Infrastructure_Points/FeatureServer/13",
         title: "Substation",
         customParameters: {
-            "color": "#E89E23"
+            "color": "#b37700",
+            "shape":"triangle"
         },
-        visible: false
+        visible: false,
+        renderer: {
+            type: "simple",
+            symbol: {
+                type: "simple-marker",  
+                size: 7,
+                style:"triangle",
+                color:"#b37700",
+                outline: {
+                    style: "solid",
+                    width: "0.5",
+                    color: "white"
+                }
+            }
+        }
     });
     let child_care = new FeatureLayer({
         url: "https://services.arcgis.com/HRPe58bUyBqyyiCt/arcgis/rest/services/Infrastructure_Points/FeatureServer/12",
         title: "Child Care",
         customParameters: {
-            "color": "#BF4C9C"
+            "color": "#40bf80",
+            "shape":"circle"
         },
-        visible: false
+        visible: false,
+        renderer: {
+            type: "simple",
+            symbol: {
+                type: "simple-marker",  
+                size: 5,
+                color:"#40bf80",
+                outline: {
+                    style: "solid",
+                    width: "0.5",
+                    color: "white"
+                }
+            }
+        }
     });
     let wastewater = new FeatureLayer({
         url: "https://services.arcgis.com/HRPe58bUyBqyyiCt/arcgis/rest/services/Infrastructure_Points/FeatureServer/11",
         title: "Wastewater",
         customParameters: {
-            "color": "#39C2F1"
+            "color": "#a3c2c2",
+            "shape":"triangle"
         },
-        visible: false
+        visible: false,
+        renderer: {
+            type: "simple",
+            symbol: {
+                type: "simple-marker",  
+                size: 7,
+                style:"triangle",
+                color:"#a3c2c2",
+                outline: {
+                    style: "solid",
+                    width: "0.5",
+                    color: "white"
+                }
+            }
+        }
     });
     let schools = new FeatureLayer({
         url: "https://services.arcgis.com/HRPe58bUyBqyyiCt/arcgis/rest/services/Infrastructure_Points/FeatureServer/1",
         title: "Schools",
         customParameters: {
-            "color": "#7F4099"
+            "color": "#944dff",
+            "shape":"circle"
         },
-        visible: false
+        visible: false,
+        renderer: {
+            type: "simple",
+            symbol: {
+                type: "simple-marker",  
+                size: 5,
+                color:"#944dff",
+                outline: {
+                    style: "solid",
+                    width: "0.5",
+                    color: "white"
+                }
+            }
+        }
     });
     let fire_stations = new FeatureLayer({
         url: "https://services.arcgis.com/HRPe58bUyBqyyiCt/arcgis/rest/services/Infrastructure_Points/FeatureServer/2",
         title: "Fire Station",
         customParameters: {
-            "color": "#EF3925"
+            "color": "#EF3925",
+            "shape":"square"
         },
-        visible: false
+        visible: false,
+        renderer: {
+            type: "simple",
+            symbol: {
+                type: "simple-marker",  
+                size: 5,
+                style:"square",
+                color:"#EF3925",
+                outline: {
+                    style: "solid",
+                    width: "0.5",
+                    color: "white"
+                }
+            }
+        }
     });
     let hospitals = new FeatureLayer({
         url: "https://services.arcgis.com/HRPe58bUyBqyyiCt/arcgis/rest/services/Infrastructure_Points/FeatureServer/3",
         title: "Hospital",
         customParameters: {
-            "color": "#C83626"
+            "color": "rgba(0,0,0,0)",
+            "shape":"cross"
         },
-        visible: false
+        visible: false,
+        renderer: {
+            type: "simple",
+            symbol: {
+                type: "simple-marker",  
+                size: 5,
+                style:"cross",
+                color:"#EF3925",
+                outline: {
+                    style: "solid",
+                    width: "2",
+                    color: "#EF3925"
+                }
+            }
+        }
     });
     let shelters = new FeatureLayer({
         url: "https://services.arcgis.com/HRPe58bUyBqyyiCt/arcgis/rest/services/Infrastructure_Points/FeatureServer/4",
         title: "Emerg. Shelter",
         customParameters: {
-            "color": "#75C26E"
+            "color": "#000000",
+            "shape":"circle"
         },
-        visible: false
+        visible: false,
+        renderer: {
+            type: "simple",
+            symbol: {
+                type: "simple-marker",  
+                size: 5,
+                color:"#000000",
+                outline: {
+                    style: "solid",
+                    width: "0.5",
+                    color: "white"
+                }
+            }
+        }
     });
     let nursing_homes = new FeatureLayer({
         url: "https://services.arcgis.com/HRPe58bUyBqyyiCt/arcgis/rest/services/Infrastructure_Points/FeatureServer/5",
         title: "Nursing Home",
         customParameters: {
-            "color": "#119DCE"
+            "color": "#ffa31a",
+            "shape":"circle"
         },
-        visible: false
+        visible: false,
+        renderer: {
+            type: "simple",
+            symbol: {
+                type: "simple-marker",  
+                size: 5,
+                color:"#ffa31a",
+                outline: {
+                    style: "solid",
+                    width: "0.5",
+                    color: "white"
+                }
+            }
+        }
     });
     let police = new FeatureLayer({
         url: "https://services.arcgis.com/HRPe58bUyBqyyiCt/arcgis/rest/services/Infrastructure_Points/FeatureServer/6",
         title: "Police",
         customParameters: {
-            "color": "#0E7AC0"
+            "color": "#0E7AC0",
+            "shape":"square"
         },
-        visible: false
+        visible: false,
+        renderer: {
+            type: "simple",
+            symbol: {
+                type: "simple-marker",  
+                size: 5,
+                style:"square",
+                color:"#0E7AC0",
+                outline: {
+                    style: "solid",
+                    width: "0.5",
+                    color: "white"
+                }
+            }
+        }
     });
     let sirens = new FeatureLayer({
         url: "https://services.arcgis.com/HRPe58bUyBqyyiCt/arcgis/rest/services/Infrastructure_Points/FeatureServer/7",
         title: "Emerg. Siren",
         customParameters: {
-            "color": "#58595C"
+            "color": "rgba(0,0,0,0)",            
+            "shape":"x"
         },
-        visible: false
+        visible: false,
+        renderer: {
+            type: "simple",
+            symbol: {
+                type: "simple-marker",  
+                size: 3,
+                style:"x",
+                color:"#000000",
+                outline: {
+                    style: "solid",
+                    width: "2",
+                    color: "#000000"
+                }
+            }
+        }
     });
     let epcra = new FeatureLayer({
-        url: "https://services.arcgis.com/HRPe58bUyBqyyiCt/arcgis/rest/services/Infrastructure_Points/FeatureServer/6",
+        url: "https://services.arcgis.com/HRPe58bUyBqyyiCt/arcgis/rest/services/Infrastructure_Points/FeatureServer/8",
         title: "Haz. Chemicals",
         customParameters: {
-            "color": "#333333"
+            "color": "#333333",
+            "shape":"triangle"
         },
-        visible: false
+        visible: false,
+        renderer: {
+            type: "simple",
+            symbol: {
+                type: "simple-marker",  
+                size: 7,
+                style:"triangle",
+                color:"#333333",
+                outline: {
+                    style: "solid",
+                    width: "0.5",
+                    color: "white"
+                }
+            }
+        }
     });
 
 ///change order of features
@@ -753,8 +915,7 @@ const sviStyle = {
         hazusLayersHigh = [HAZUS_one_year_high, HAZUS_ten_year_high, HAZUS_one_hundred_year_high, HAZUS_five_hundred_year_high],
         hazusLayersLow = [HAZUS_one_year_low, HAZUS_ten_year_low, HAZUS_one_hundred_year_low, HAZUS_five_hundred_year_low],
         overlays = [svi_blocks],
-        infrastructure = [substations, child_care, wastewater,schools,fire_stations,hospitals,shelters,nursing_homes,police,sirens,epcra]
-        
+        infrastructure = [hospitals,fire_stations,police,shelters,schools,nursing_homes,child_care,substations,wastewater,epcra,sirens]
     //set default line layer group based on lake depth
     let lineLayers = lineLayersHigh;
 
@@ -1252,7 +1413,11 @@ function addSvi(){
     })
 /////CREATE INFRASTRUCTURE LEGEND
     infrastructure.forEach(function(item){
-        document.querySelector("#infrastructureDiv").insertAdjacentHTML("beforeend","<b class='infrastructurePoint' style='background-color:" + item.customParameters.color + "'></b>")
+        let infrastructureClass = item.customParameters.shape == 'x' ? "infrastructureX": item.customParameters.shape == 'cross' ? "infrastructureCross": item.customParameters.shape == 'square' ? "infrastructureSquare": item.customParameters.shape == 'triangle' ? "infrastructureTriangle" : "infrastructureCircle",
+            style = item.customParameters.shape == 'triangle' ? 'border-bottom-color' : 'background-color',
+            content = item.customParameters.shape == 'cross' ? '&#10010;' :item.customParameters.shape == 'x'? '&#10006;' : "";
+        
+        document.querySelector("#infrastructureDiv").insertAdjacentHTML("beforeend","<b class='" + infrastructureClass + "' style='" + style + ":" + item.customParameters.color + "'>" + content + "</b>")
         document.querySelector("#infrastructureDiv").insertAdjacentHTML("beforeend","<p>" + item.title + "</p><br>")
     })
 /////LAYER INFORMATION
