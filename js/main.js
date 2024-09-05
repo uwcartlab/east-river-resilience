@@ -1149,13 +1149,12 @@ function checkBoxes(){
         view.ui.add(swipe);
     }
     //set the swipe conditions
-    function setSwipe(highLayers, lowLayers){
-        add2dModel();
-        
+    function setSwipe(highLayers, lowLayers){        
         if (swipe)
             swipe.destroy();
         
         compare = true;
+        add2dModel();
         
         createSwipe();
         //remove all map layers
