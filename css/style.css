@@ -356,7 +356,7 @@ hr{
     padding:10px;
     position:absolute;
     z-index:10000;
-    width:250px;
+    width:400px;
 }
 .info-hover:hover{
     cursor:pointer;
