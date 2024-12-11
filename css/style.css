@@ -368,8 +368,8 @@ hr{
         width:350px;
     }
     #viewDiv{
-        width:calc(100% - 380px);
-        left:380px;
+        width:calc(100% - 400px);
+        left:400px;
     }
     #show-panel, #close{
         display:none;
