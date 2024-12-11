@@ -1075,7 +1075,12 @@ function checkBoxes(){
         document.querySelector("#lake-level-high").style.background = "none";
         document.querySelector("#lake-level-low").style.background = "none";
         document.querySelector("#lake-level-compare").style.background = "none";
-        elem.style.background = "rgba(255,255,255,0.6)";
+        document.querySelector("#lake-level-low").style.color = "#1b666b";
+        document.querySelector("#lake-level-high").style.color = "#1b666b";
+        document.querySelector("#lake-level-compare").style.color = "#1b666b";
+
+        elem.style.background = "#1b666b";
+        elem.style.color = "#e9e7da";
 
         if (type == "extent"){
             document.querySelectorAll(".extent-layer").forEach(function(checkbox, i){
@@ -1086,6 +1091,7 @@ function checkBoxes(){
             })
         }
         if (type == "depth"){
+
             checkBoxes();
 
             addLayers(depthLayersHigh,depthLayersLow)
@@ -1112,7 +1118,12 @@ function checkBoxes(){
             document.querySelector("#" + type).style.background = "none";
             
             document.querySelector("#flood-" + elem.id + "-container").style.display = "block";
-            event.target.style.background = "rgba(255,255,255,0.6)";
+            
+            document.querySelector("#depth").style.color = "#1b666b";
+            document.querySelector("#extent").style.color = "#1b666b";
+            
+            event.target.style.background = "#1b666b";
+            event.target.style.color = "#e9e7da";
             //set new data type
             type = elem.id;
             //remove all layers
@@ -1200,9 +1211,12 @@ function checkBoxes(){
 
         document.querySelector(".swipe-label-container").style.display = "block";
 
-        event.target.style.background = "rgba(255,255,255,0.6)"
+        event.target.style.background = "#1b666b"
+        event.target.style.color = "#e9e7da"
         document.querySelector("#lake-level-low").style.background = "none";
         document.querySelector("#lake-level-high").style.background = "none";
+        document.querySelector("#lake-level-low").style.color = "#1b666b";
+        document.querySelector("#lake-level-high").style.color = "#1b666b";
     })
 //CREATE LAYER LISTS
 function selectLayer(highLayers, lowLayers){
